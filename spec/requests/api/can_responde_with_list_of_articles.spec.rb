@@ -1,5 +1,6 @@
 RSpec.describe 'GET /api/articles', type: :request do
   describe 'successfully' do
+    let!(:articles){ 3.times{create(:article)}}
     before do
       get '/api/articles'
     end
@@ -17,7 +18,7 @@ RSpec.describe 'GET /api/articles', type: :request do
     end
 
     it 'is expected that the article has a teaser text' do
-      expect(response_json['articles']['teaser']).to eq 'some text'
+      expect(response_json['articles'].first['teaser']).to eq 'some text'
     end
   end
 end
