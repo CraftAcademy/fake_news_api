@@ -1,6 +1,6 @@
 class Api::ArticlesController < ApplicationController
   def index
-    articles = Article.all.sort_by(&:created_at).reverse
+    articles = Article.all().most_recent
     if articles == []
       render json: { articles: articles }, status: 204
     else
