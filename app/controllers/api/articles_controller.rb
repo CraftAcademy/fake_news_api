@@ -4,7 +4,7 @@ class Api::ArticlesController < ApplicationController
     if articles == []
       render json: { articles: articles }, status: 204
     else
-      render json: { articles: articles }
+      render json: articles, each_serializer: ArticlesIndexSerializer
     end
   end
 end

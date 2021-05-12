@@ -7,6 +7,7 @@ gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'rack-cors', require: 'rack/cors'
+gem 'active_model_serializers'
 
 group :development, :test do
   gem 'shoulda-matchers'
