@@ -31,4 +31,15 @@ RSpec.describe 'GET /api/articles', type: :request do
       expect(response_json['articles'].first['title']).to eq 'Third Article'
     end
   end
+
+  describe 'unsuccessfully if no articles in database' do
+    before do
+      get '/api/articles'
+    end
+
+    it 'is expected to return 204 response status' do
+      binding.pry
+      expect(response).to have_http_status 204
+    end
+  end
 end
