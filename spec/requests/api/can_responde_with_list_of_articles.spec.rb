@@ -16,7 +16,7 @@ RSpec.describe 'GET /api/articles', type: :request do
     end
 
     it 'is expected to have a title' do
-      expect(response_json['articles'].first['title']).to eq 'First title'
+      expect(response_json['articles'].first['title']).to eq 'Third Article'
     end
 
     it 'is expected that the article has a teaser text' do
@@ -24,11 +24,11 @@ RSpec.describe 'GET /api/articles', type: :request do
     end
 
     it 'is expected to contain dates' do
-      expect(response_json['articles'].first['created_at']).to eq '2021-05-11'
+      expect(response_json['articles'].first['created_at']).to eq Time.now.strftime('%F')
     end
 
     it 'is expected to return lists with newest articles first' do
-      expect(response_json['articles'].first['title']).to eq 'Third article'
+      expect(response_json['articles'].first['title']).to eq 'Third Article'
     end
   end
 end
