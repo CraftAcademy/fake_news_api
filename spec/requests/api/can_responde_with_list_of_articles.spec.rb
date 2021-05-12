@@ -38,7 +38,6 @@ RSpec.describe 'GET /api/articles', type: :request do
     end
 
     it 'is expected to return 204 response status' do
-      binding.pry
       expect(response).to have_http_status 204
     end
   end
