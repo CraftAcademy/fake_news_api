@@ -28,6 +28,10 @@ RSpec.describe "GET /api/articles/:id" do
     it "is expected to include author's last name" do
       expect(response_json["article"]["author"]["last_name"]).to eq "Fake"
     end
+
+    it 'is expected to show category' do
+      expect(response_json['article']['category']).to eq "Flat Earth"
+    end
   end
 
   describe 'unsuccessfully with no article' do
