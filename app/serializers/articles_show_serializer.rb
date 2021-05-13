@@ -9,6 +9,6 @@ class ArticlesShowSerializer < ActiveModel::Serializer
   end
 
   def date
-    object.created_at.strftime('%F')
+    object.created_at.strftime('%F, %H:%M')
   end
 end

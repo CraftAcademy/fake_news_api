@@ -24,7 +24,7 @@ RSpec.describe 'GET /api/articles', type: :request do
     end
 
     it 'is expected to contain dates in a readable format' do
-      expect(response_json['articles'].first['date']).to eq Time.now.strftime('%F')
+      expect(response_json['articles'].first['date']).to eq Time.now.strftime('%F, %H:%M')
     end
 
     it 'is expected to return lists with newest articles first' do
