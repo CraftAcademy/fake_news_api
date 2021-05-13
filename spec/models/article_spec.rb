@@ -12,7 +12,7 @@ RSpec.describe Article, type: :model do
   end
 
   describe 'Factory' do
-    it 'should have valid Factory' do
+    it 'is expected to have valid Factory' do
       expect(create(:article)).to be_valid
     end
   end
