@@ -4,5 +4,6 @@ FactoryBot.define do
     teaser { "some text" }
     body { "Husband found dead allegedly because he wasn't testing first" }
     association :user
+    category {"Flat Earth"}
   end
 end
