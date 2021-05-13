@@ -9,6 +9,7 @@ gem 'bootsnap', '>= 1.4.4', require: false
 gem 'rack-cors', require: 'rack/cors'
 gem 'active_model_serializers'
 gem 'devise_token_auth', github: 'lynndylanhurley/devise_token_auth', branch: 'master'
+gem 'faker', git: 'https://github.com/faker-ruby/faker.git', branch: 'master'
 
 group :development, :test do
   gem 'shoulda-matchers'
