@@ -9,7 +9,11 @@ class Api::ArticlesController < ApplicationController
   end 
 
   def show
+    begin
     article = Article.find(params[:id])
     render json: article, serializer: ArticlesShowSerializer
+    rescue ActiveRecord::RecordNotFound => e
+      render json: {error_message: 'Article does not exist'}, status: 404
+    end
   end 
 end
