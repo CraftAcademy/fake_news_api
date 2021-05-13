@@ -9,4 +9,5 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
   enum role: { member: 1, journalist: 5 }
+  validates_presence_of :role, :first_name, :last_name
 end
