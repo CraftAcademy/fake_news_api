@@ -1,4 +1,4 @@
-class CreateRelationshopBetweenArticleAndUser < ActiveRecord::Migration[6.1]
+class CreateRelationshipBetweenArticleAndUser < ActiveRecord::Migration[6.1]
   def change
     add_reference :articles, :user, foreign_key: true
   end
