@@ -1,5 +1,3 @@
-require "rails_helper"
-
 RSpec.describe User, type: :model do
   describe "db table" do
     it { is_expected.to have_db_column(:first_name).of_type(:string) }
@@ -14,7 +12,7 @@ RSpec.describe User, type: :model do
   end
 
   describe "validate enum attribute" do
-    it { is_expected.to define_enum_for(:role).with_values({ journalist: 1 }) }
+    it { is_expected.to define_enum_for(:role).with_values({ member: 1, journalist: 5 }) }
   end
 
   describe "Relationships between article and user" do
@@ -22,7 +20,7 @@ RSpec.describe User, type: :model do
   end
 
   describe "Factory" do
-    it "should have valid Factory" do
+    it "is expected to have a valid Factory" do
       expect(create(:user)).to be_valid
     end
   end

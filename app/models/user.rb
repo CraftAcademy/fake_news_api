@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
 
-  enum role: {journalist: 1}
+  enum role: {member: 1, journalist: 5, }
   validates_presence_of :first_name, :last_name, :role
   
   has_many :articles

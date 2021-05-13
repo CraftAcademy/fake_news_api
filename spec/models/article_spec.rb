@@ -1,5 +1,3 @@
-require "rails_helper"
-
 RSpec.describe Article, type: :model do
   describe "db table" do
     it { is_expected.to have_db_column(:title).of_type(:string) }
@@ -16,7 +14,7 @@ RSpec.describe Article, type: :model do
   end
 
   describe "Factory" do
-    it "should have valid Factory" do
+    it "is expected to have a valid Factory" do
       expect(create(:article)).to be_valid
     end
   end
