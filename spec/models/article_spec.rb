@@ -13,6 +13,10 @@ RSpec.describe Article, type: :model do
     it { is_expected.to validate_presence_of :body }
   end
 
+  describe 'Relationship between article and user' do
+    it { is_expected.to belong_to(:user) }
+  end
+
   describe 'Factory' do
     it 'is expected to have valid Factory' do
       expect(create(:article)).to be_valid
