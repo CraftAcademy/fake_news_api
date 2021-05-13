@@ -17,17 +17,17 @@ RSpec.describe 'GET /api/articles/?category=Flat+Earth', type: :request do
       expect(response_json['articles'].first['category']).to eq 'Flat Earth'
     end
   end
-  describe 'unsuccessfull' do
+  describe 'unsuccessfully with no articles of specified category' do
     before do
-      get '/api/articles/?category=bollywood'
+      get '/api/articles/?category=Hollywood'
     end
-    
+
     it 'is expected to return status 404 ' do
       expect(response).to have_http_status 404
     end
 
     it 'is expected to return error message' do
-      expect(response_json['error_message']).to eq 'This Category does not exist'
+      expect(response_json['error_message']).to eq 'There is no Articles in this category'
     end
   end
 end
