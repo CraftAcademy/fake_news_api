@@ -8,5 +8,5 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
 
-  enum role: { consumer: 1, journalist: 2 }
+  enum role: { member: 1, journalist: 5 }
 end

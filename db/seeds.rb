@@ -11,6 +11,8 @@ teasers = [
 'Mike Hughes, a California man who is most known for his belief that the Earth is shaped like a Frisbee, finally blasted off into the sky in a steam-powered rocket he had built himself.'
 ]
 
+user = User.create(email: 'mrfake@fakenews.com', password: 'password', password_confirmation: 'password', first_name: 'Mr.', last_name: 'Fake', role: 5)
+
 for i in 0...titles.count
   Article.create(title: titles[i], teaser: teasers[i])
 end

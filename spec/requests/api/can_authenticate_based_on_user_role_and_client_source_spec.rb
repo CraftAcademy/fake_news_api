@@ -1,9 +1,9 @@
 RSpec.describe 'POST /api/auth/sign_in' do
-  let!(:regular_user) { create(:user, role: 'consumer', email: 'ordinary_guy@random.com') }
+  let!(:regular_user) { create(:user, role: 'member', email: 'ordinary_guy@random.com') }
   let!(:journalist) { create(:user, role: 'journalist', email: 'pulizer_prize_guy@random.com') }
 
   describe 'admin-system' do
-    describe 'as a consumer' do
+    describe 'as a member' do
       before do
         post '/api/auth/sign_in', params: {
           email: 'ordinary_guy@random.com',
@@ -33,7 +33,7 @@ RSpec.describe 'POST /api/auth/sign_in' do
   end
 
   describe 'public-system' do
-    describe 'as a consumer' do
+    describe 'as a member' do
       before do
         post '/api/auth/sign_in', params: {
           email: 'ordinary_guy@random.com',
@@ -61,6 +61,4 @@ RSpec.describe 'POST /api/auth/sign_in' do
       end
     end
   end
-
-
 end
