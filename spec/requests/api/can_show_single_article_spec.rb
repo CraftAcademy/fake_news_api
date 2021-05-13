@@ -22,11 +22,11 @@ RSpec.describe "GET /api/articles/:id" do
     end
 
     it "is expected to include author's first name" do
-      expect(response_json["article"]["author"]["first_name"]).to eq "Melon"
+      expect(response_json["article"]["author"]["first_name"]).to eq "Mr."
     end
 
     it "is expected to include author's last name" do
-      expect(response_json["article"]["author"]["last_name"]).to eq "Usk"
+      expect(response_json["article"]["author"]["last_name"]).to eq "Fake"
     end
   end
 
