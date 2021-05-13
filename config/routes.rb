@@ -3,6 +3,6 @@ Rails.application.routes.draw do
     sessions: 'api/sessions'
   }
   namespace :api do
-    resources :articles, only: [:index, :show]
+    resources :articles, only: [:index, :show, :create]
   end
 end

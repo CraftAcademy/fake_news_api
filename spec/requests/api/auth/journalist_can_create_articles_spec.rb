@@ -1,4 +1,4 @@
-Rspec.describe 'POST /api/articles', type: :request do
+RSpec.describe 'POST /api/articles', type: :request do
   let(:journalist) { create(:user, role: 'journalist') }
   let(:auth_headers) { journalist.create_new_auth_token }
 
@@ -6,11 +6,13 @@ Rspec.describe 'POST /api/articles', type: :request do
     before do
       post '/api/articles',
            params: {
-             title: 'Obnoxious Title',
-             teaser: 'Some damn teaser',
-             body: "Husband found dead allegedly because he wasn't testing first",
-             category: 'Hollywood',
-             user_id: journalist.id
+             article: {
+               title: 'Obnoxious Title',
+               teaser: 'Some damn teaser',
+               body: "Husband found dead allegedly because he wasn't testing first",
+               category: 'Hollywood',
+               user_id: journalist.id
+             }
            },
            headers: auth_headers
     end
