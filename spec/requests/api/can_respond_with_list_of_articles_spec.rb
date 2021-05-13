@@ -30,6 +30,10 @@ RSpec.describe 'GET /api/articles', type: :request do
     it 'is expected to return lists with newest articles first' do
       expect(response_json['articles'].first['title']).to eq 'Third Article'
     end
+
+    it 'is expected to have a category' do
+      expect(response_json['articles'].first['category']).to eq 'Flat Earth'
+    end
   end
 
   describe 'unsuccessfully if no articles in database' do
