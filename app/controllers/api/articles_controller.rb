@@ -41,7 +41,7 @@ class Api::ArticlesController < ApplicationController
   private
 
   def attach_image(article)
-    params[:article][:image].present? && DecodeService.attach_image(params[:article][:image].first, article.image)
+    params[:article][:image].present? && DecodeService.attach_image(params[:article][:image].first, article)
   end
 
   def article_params
