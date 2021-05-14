@@ -11,7 +11,6 @@ RSpec.describe "POST /api/articles", type: :request do
                teaser: "Some damn teaser",
                body: "Husband found dead allegedly because he wasn't testing first",
                category: "Hollywood",
-               user_id: journalist.id,
              },
            },
            headers: auth_headers
@@ -42,7 +41,6 @@ RSpec.describe "POST /api/articles", type: :request do
                teaser: "Some damn teaser",
                body: "Husband found dead allegedly because he wasn't testing first",
                category: "Hollywood",
-               user_id: member.id,
              },
            },
            headers: auth_headers_member
@@ -53,7 +51,7 @@ RSpec.describe "POST /api/articles", type: :request do
     end
 
     it "is expected that member cant create article" do
-      expect(response_json["error_message"]).to eq "You dont have access"
+      expect(response_json["error_message"]).to eq "You are not authorized to create an article"
     end
 
     it "is expected not to add an article to the database" do
@@ -71,7 +69,6 @@ RSpec.describe "POST /api/articles", type: :request do
                teaser: "Some damn teaser",
                body: "Husband found dead allegedly because he wasn't testing first",
                category: "Hollywood",
-               user_id: journalist.id,
              },
            },
            headers: { wrong_headers: "wrong headers" }
@@ -94,7 +91,6 @@ RSpec.describe "POST /api/articles", type: :request do
                teaser: "Some damn teaser",
                body: "Husband found dead allegedly because he wasn't testing first",
                category: "Hollywood",
-               user_id: journalist.id,
              },
            },
            headers: auth_headers
