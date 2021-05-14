@@ -1,5 +1,5 @@
 class ArticlesShowSerializer < ActiveModel::Serializer
-  attributes :id, :title, :body, :date, :author
+  attributes :id, :title, :body, :date, :author, :category
 
   def author
     {
@@ -9,6 +9,6 @@ class ArticlesShowSerializer < ActiveModel::Serializer
   end
 
   def date
-    object.created_at.localtime.strftime('%F, %H:%M')
+    object.created_at.strftime('%F, %H:%M')
   end
 end
