@@ -1,6 +1,9 @@
 RSpec.describe 'POST /api/articles', type: :request do
   let(:journalist) { create(:user, role: 'journalist') }
   let(:auth_headers) { journalist.create_new_auth_token }
+  let(:image) do
+    [File.read(fixture_path + '/default_photo_as_base64.txt')]
+  end
 
   describe 'successfully' do
     before do
@@ -10,7 +13,8 @@ RSpec.describe 'POST /api/articles', type: :request do
                title: 'Obnoxious Title',
                teaser: 'Some damn teaser',
                body: "Husband found dead allegedly because he wasn't testing first",
-               category: 'Hollywood'
+               category: 'Hollywood',
+               image: image
              }
            },
            headers: auth_headers
@@ -27,6 +31,11 @@ RSpec.describe 'POST /api/articles', type: :request do
     it 'is expected to add an article to the database' do
       articles = Article.all
       expect(articles.count).to eq 1
+    end
+
+    it 'is expected to have an image attached' do
+      article = Article.last
+      expect(article.image.attached?).to eq true
     end
   end
 

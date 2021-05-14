@@ -25,13 +25,13 @@ class Api::ArticlesController < ApplicationController
   end
 
   def create
-    unless current_user.journalist?
+    unless current_user.journalist? 
       render json: { error_message: 'You are not authorized to create an article' },
              status: 403 and return
     end
 
     article = current_user.articles.create(article_params)
-    if article.persisted?
+    if article.persisted? && attach_image(article)
       render json: { message: 'Your article has been successfully created!' }, status: 201
     else
       render json: { error_message: 'Please fill in all required fields' }, status: 422
@@ -40,7 +40,11 @@ class Api::ArticlesController < ApplicationController
 
   private
 
+  def attach_image(article)
+    params[:article][:image].present? && DecodeService.attach_image(params[:article][:image].first, article)
+  end
+
   def article_params
-    params[:article].permit(:title, :teaser, :body, :category)
+    params[:article].permit(:title, :teaser, :body, :category, keys: [:images])
   end
 end
