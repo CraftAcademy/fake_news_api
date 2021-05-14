@@ -18,7 +18,7 @@ RSpec.describe "GET /api/articles/:id" do
     end
 
     it "is expected to return date" do
-      expect(response_json["article"]["date"]).to eq Time.now.strftime("%F, %H:%M")
+      expect(response_json["article"]["date"]).to eq Time.zone.now.strftime("%F, %H:%M")
     end
 
     it "is expected to include author's first name" do
@@ -27,6 +27,10 @@ RSpec.describe "GET /api/articles/:id" do
 
     it "is expected to include author's last name" do
       expect(response_json["article"]["author"]["last_name"]).to eq "Fake"
+    end
+
+    it 'is expected to show category' do
+      expect(response_json['article']['category']).to eq "Flat Earth"
     end
   end
 
