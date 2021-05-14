@@ -1,5 +1,5 @@
 class Api::ArticlesController < ApplicationController
-  before_action :role_authenticator, only: [:create]
+  before_action :authenticate_user!
 
   def index
     articles = Article.all.most_recent
@@ -18,14 +18,11 @@ class Api::ArticlesController < ApplicationController
   end
 
   def create
+    unless current_user.role == 'journalist'
+      render json: { error_message: 'You dont have access' }, status: 403 and return
+    end
+
     article = current_user.articles.create(params[:article].permit(:title, :teaser, :body))
-    render json: {message: 'Your article has been successfully created!'}, status: 201
-  end
-
-  private
-
-  def role_authenticator
-    return if current_user.role == 'journalist'
-    render json: {error_message: 'You dont have access'}, status: 403
+    render json: { message: 'Your article has been successfully created!' }, status: 201
   end
 end
