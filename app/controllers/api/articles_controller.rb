@@ -18,7 +18,8 @@ class Api::ArticlesController < ApplicationController
   end
 
   def create
-    binding.pry
+    article = current_user.articles.create(params[:article].permit(:title, :teaser, :body))
+    render json: {message: 'Your article has been successfully created!'}, status: 201
   end
 
   private
