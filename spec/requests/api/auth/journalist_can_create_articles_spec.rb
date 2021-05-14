@@ -1,8 +1,8 @@
 RSpec.describe 'POST /api/articles', type: :request do
-  let(:journalist) { create(:user, role: 'journalist') }
-  let(:auth_headers) { journalist.create_new_auth_token }
-
+  
   describe 'successfully' do
+    let(:journalist) { create(:user, role: 'journalist') }
+    let(:auth_headers) { journalist.create_new_auth_token }
     before do
       post '/api/articles',
            params: {
@@ -28,6 +28,38 @@ RSpec.describe 'POST /api/articles', type: :request do
     it 'is expected to add an article to the database' do
       articles = Article.all
       expect(articles.count).to eq 1
+    end
+  end
+
+
+  describe 'unsuccsefully if user is not a journalist' do
+    let(:member) { create(:user, role: 'member') }
+    let(:auth_headers) { member.create_new_auth_token }
+    before do
+      post '/api/articles',
+      params: {
+        article: {
+          title: 'Obnoxious Title',
+          teaser: 'Some damn teaser',
+          body: "Husband found dead allegedly because he wasn't testing first",
+          category: 'Hollywood',
+          user_id: member.id
+        }
+      },
+      headers: auth_headers
+    end
+
+    it 'is expected to have status 403' do
+      expect(response).to have_http_status 403
+    end
+
+    it 'is expected that member cant create article' do
+      expect(response_json['error_message']).to eq 'You dont have access'
+    end
+
+    it 'is expected not to add an article to the database' do
+      articles = Article.all
+      expect(articles.count).to eq 0
     end
   end
 end

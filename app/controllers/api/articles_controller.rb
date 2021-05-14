@@ -26,5 +26,6 @@ class Api::ArticlesController < ApplicationController
 
   def role_authenticator
     return if current_user.role == 'journalist'
+    render json: {error_message: 'You dont have access'}, status: 403
   end
 end
