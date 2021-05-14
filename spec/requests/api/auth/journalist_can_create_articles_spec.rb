@@ -1,13 +1,8 @@
 RSpec.describe 'POST /api/articles', type: :request do
   let(:journalist) { create(:user, role: 'journalist') }
   let(:auth_headers) { journalist.create_new_auth_token }
-  let(:image) do 
-    [{
-      type: 'application/jpg',
-      encoder: 'base64',
-      data: 'qwertyqwertywqwertyqwert',
-      extension: 'jpg'
-    }]
+  let(:image) do
+    [File.read(fixture_path + '/default_photo_as_base64.txt')]
   end
 
   describe 'successfully' do
