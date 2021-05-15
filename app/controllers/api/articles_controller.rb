@@ -1,5 +1,6 @@
 class Api::ArticlesController < ApplicationController
   before_action :authenticate_user!, only: [:create]
+  before_action :role_authenticator, only: [:create]
 
   def index
     articles = Article.all.most_recent
@@ -25,11 +26,6 @@ class Api::ArticlesController < ApplicationController
   end
 
   def create
-    unless current_user.journalist?
-      render json: { error_message: 'You are not authorized to create an article' },
-             status: 403 and return
-    end
-
     article = current_user.articles.create(article_params)
     if article.persisted?
       render json: { message: 'Your article has been successfully created!' }, status: 201
@@ -42,5 +38,11 @@ class Api::ArticlesController < ApplicationController
 
   def article_params
     params[:article].permit(:title, :teaser, :body, :category)
+  end
+
+  def role_authenticator
+    return if current_user.journalist?
+
+    render json: { error_message: 'You are not authorized to create an article' }, status: 403
   end
 end
