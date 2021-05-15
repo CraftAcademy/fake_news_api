@@ -19,7 +19,6 @@ class Api::ArticlesController < ApplicationController
       end
     else
       render json: articles, each_serializer: ArticlesIndexSerializer
-
     end
   end
 
@@ -50,6 +49,6 @@ class Api::ArticlesController < ApplicationController
   def role_authenticator
     return if current_user.journalist?
 
-    render json: { error_message: 'You are not authorized to create an article' }, status: 403 
+    render json: { error_message: 'You are not authorized to create an article' }, status: 403
   end
 end

@@ -1,6 +1,6 @@
 RSpec.describe 'GET /api/articles', type: :request do
   let!(:journalist) { create(:user, role: 'journalist') }
-  let!(:article1) { create(:article, title: 'First Article' , user_id: journalist.id)  }
+  let!(:article1) { create(:article, title: 'First Article', user_id: journalist.id) }
   let!(:article2) { create(:article, title: 'Second Article', user_id: journalist.id) }
   let!(:article3) { create(:article, title: 'Third Article') }
   let!(:article4) { create(:article, title: 'Fourth Article') }
@@ -9,14 +9,6 @@ RSpec.describe 'GET /api/articles', type: :request do
   describe 'successfully' do
     before do
       get '/api/articles',
-          params: {
-            article: {
-              title: 'Obnoxious Title',
-              teaser: 'Some damn teaser',
-              body: "Husband found dead allegedly because he wasn't testing first",
-              category: 'Hollywood'
-            }
-          },
           headers: auth_headers
     end
 
@@ -31,5 +23,16 @@ RSpec.describe 'GET /api/articles', type: :request do
     it 'article belongs to expected journalist' do
       expect(response_json['articles'].first['title']).to eq 'Second Article'
     end
+  end
+  describe 'unsuccessfully because journalist does not have any article' do
+    before do
+      get '/api/articles',
+          headers: auth_headers
+    end
+
+    it 'is expected to response with status 204' do
+      expect(response).to have_http_status 204
+    end
+
   end
 end
