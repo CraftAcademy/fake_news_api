@@ -1,12 +1,12 @@
 class Api::ArticlesController < ApplicationController
-  before_action :authenticate_user!, only: %i[create index]
-  before_action :role_authenticator, only: %i[create index]
+  before_action :authenticate_user!, only: %i[create]
+  before_action :role_authenticator, only: %i[create]
 
   def index
     articles = Article.all.most_recent
-    unless current_user.role == 'journalist'
-      article_by_journalist = Article.where(user_id: current_user.id)
-      render json: {article_by_journalist: current_user.id}
+    if current_user&.journalist?
+      articles_by_journalist = Article.where(user_id: current_user.id).most_recent
+      render json: articles_by_journalist, each_serializer: ArticlesIndexSerializer and return
     end
     if articles == []
       render json: { articles: articles }, status: 204
@@ -19,6 +19,7 @@ class Api::ArticlesController < ApplicationController
       end
     else
       render json: articles, each_serializer: ArticlesIndexSerializer
+
     end
   end
 
@@ -49,6 +50,6 @@ class Api::ArticlesController < ApplicationController
   def role_authenticator
     return if current_user.journalist?
 
-    render json: { error_message: 'You are not authorized to create an article' }, status: 403
+    render json: { error_message: 'You are not authorized to create an article' }, status: 403 
   end
 end
