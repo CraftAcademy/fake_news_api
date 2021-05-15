@@ -1,11 +1,17 @@
 class Api::ArticlesController < ApplicationController
-  before_action :authenticate_user!, only: [:create]
-  before_action :role_authenticator, only: [:create]
+  before_action :authenticate_user!, only: %i[create]
+  before_action :role_authenticator, only: %i[create]
 
   def index
     articles = Article.all.most_recent
+    if current_user&.journalist?
+      articles_by_journalist = Article.where(user_id: current_user.id).most_recent
+      render json: {}, status: 204 and return if articles_by_journalist == []
+
+      render json: articles_by_journalist, each_serializer: ArticlesIndexSerializer and return
+    end
     if articles == []
-      render json: { articles: articles }, status: 204
+      render json: {}, status: 204
     elsif params[:category]
       articles_by_category = Article.where(category: params[:category])
       if articles_by_category == []
@@ -35,6 +41,8 @@ class Api::ArticlesController < ApplicationController
   end
 
   private
+
+  def method_name; end
 
   def article_params
     params[:article].permit(:title, :teaser, :body, :category)
