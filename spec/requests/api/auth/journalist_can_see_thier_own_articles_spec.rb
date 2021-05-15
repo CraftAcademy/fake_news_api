@@ -1,6 +1,10 @@
 RSpec.describe 'GET /api/articles', type: :request do
-  let!(:journalist1) { 2.times { create(:user, role: 'journalist') { :article1 } } }
-  let!(:journalist2) { 2.times { create(:user, role: 'journalist') { :article2 } } }
+  let(:journalist1) { create(:user, role: 'journalist') }
+  let!(:journalist2) { create(:user, role: 'journalist') }
+  let!(:article1) { create(:article, title: 'Second Article') }
+  let!(:article2) { create(:article, title: 'First Article') }
+  let!(:article3) { create(:article, title: 'Third Article') }
+  let!(:article4) { create(:article, title: 'Fourth Article') }
   let(:auth_headers) { journalist1.create_new_auth_token }
   let(:auth_headers) { journalist2.create_new_auth_token }
 

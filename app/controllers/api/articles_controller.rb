@@ -1,9 +1,13 @@
 class Api::ArticlesController < ApplicationController
-  before_action :authenticate_user!, only: [:create]
-  before_action :role_authenticator, only: [:create]
+  before_action :authenticate_user!, only: %i[create index]
+  before_action :role_authenticator, only: %i[create index]
 
   def index
     articles = Article.all.most_recent
+    unless current_user.role == 'journalist'
+      article_by_journalist = Article.where(user_id: current_user.id)
+      render json: {article_by_journalist: current_user.id}
+    end
     if articles == []
       render json: { articles: articles }, status: 204
     elsif params[:category]
@@ -35,6 +39,8 @@ class Api::ArticlesController < ApplicationController
   end
 
   private
+
+  def method_name; end
 
   def article_params
     params[:article].permit(:title, :teaser, :body, :category)
