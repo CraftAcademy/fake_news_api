@@ -64,7 +64,7 @@ RSpec.describe 'PUT /api/articles/:id', type: :request do
       expect(response).to have_http_status 404
     end
     it 'is expected to give an error message' do
-      expect(response_json['message']).to eq "Couldn\'t find Article with 'id'=#{article.id + 1}"
+      expect(response_json['error_message']).to eq "Couldn\'t find Article with 'id'=#{article.id + 1}"
     end
   end
 
