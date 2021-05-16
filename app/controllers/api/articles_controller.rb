@@ -19,8 +19,6 @@ class Api::ArticlesController < ApplicationController
   def show
     article = Article.find(params[:id])
     render json: article, serializer: ArticlesShowSerializer
-  rescue ActiveRecord::RecordNotFound => e
-    render json: { error_message: 'Article does not exist' }, status: 404
   end
 
   def create
@@ -29,6 +27,16 @@ class Api::ArticlesController < ApplicationController
       render json: { message: 'Your article has been successfully created!' }, status: 201
     else
       render json: { error_message: 'Please fill in all required fields' }, status: 422
+    end
+  end
+
+  def update
+    article = Article.find(params[:id])
+    updated_article = article.update(article_params)
+    if updated_article
+      render json: { message: 'Your article has been successfully updated!' }, status: 200
+    else
+      render json: { message: 'Article has not been updated' }, status: 422
     end
   end
 
@@ -42,6 +50,7 @@ class Api::ArticlesController < ApplicationController
 
   def role_authenticator
     return if current_user.journalist?
+
     render json: { error_message: 'You are not authorized to create an article' }, status: 403
   end
 end
