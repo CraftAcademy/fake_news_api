@@ -14,7 +14,7 @@ RSpec.describe Article, type: :model do
     it { is_expected.to validate_presence_of :body }
     it { is_expected.to validate_presence_of :category }
     it { is_expected.to validate_inclusion_of(:category).
-          in_array(['Flat Earth', 'Aliens', 'Covid', 'Illuminati', 'Politics', 'Hollywood'])}
+          in_array(['Science', 'Aliens', 'Covid', 'Illuminati', 'Politics', 'Hollywood'])}
   end
 
   describe 'Relationship between article and user' do

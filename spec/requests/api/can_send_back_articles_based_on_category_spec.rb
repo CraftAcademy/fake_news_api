@@ -1,9 +1,9 @@
-RSpec.describe 'GET /api/articles/?category=Flat+Earth', type: :request do
+RSpec.describe 'GET /api/articles/?category=Science', type: :request do
   let!(:article) { 2.times { create(:article) } }
   let!(:article2) { 2.times { create(:article, category: 'Aliens') } }
   describe 'successfully' do
     before do
-      get '/api/articles/?category=Flat+Earth'
+      get '/api/articles/?category=Science'
     end
     it 'is expected to return status 200' do
       expect(response).to have_http_status 200
@@ -14,7 +14,7 @@ RSpec.describe 'GET /api/articles/?category=Flat+Earth', type: :request do
     end
 
     it 'is expected to have the category that we ask for' do
-      expect(response_json['articles'].first['category']).to eq 'Flat Earth'
+      expect(response_json['articles'].first['category']).to eq 'Science'
     end
   end
   describe 'unsuccessfully with no articles of specified category' do
