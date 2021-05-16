@@ -30,7 +30,7 @@ body = [
   The post links to an article on US website DC Dirty Laundry.'
 ]
 
-categories = ['Flat Earth', 'Aliens', 'Covid', 'Illuminati', 'Politics', 'Hollywood']
+categories = ['Science', 'Aliens', 'Covid', 'Illuminati', 'Politics', 'Hollywood']
 
 user = User.create(email: 'mrfake@fakenews.com', password: 'password', password_confirmation: 'password',
                    first_name: 'Mr.', last_name: 'Fake', role: 5)

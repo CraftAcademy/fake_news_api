@@ -1,5 +1,5 @@
 class ArticlesShowSerializer < ActiveModel::Serializer
-  attributes :id, :title, :body, :date, :author, :category
+  attributes :id, :title, :teaser, :body, :date, :author, :category
 
   def author
     {
