@@ -6,18 +6,11 @@ class Api::ArticlesController < ApplicationController
     articles = Article.all.most_recent
     if current_user&.journalist?
       articles_by_journalist = Article.where(user_id: current_user.id).most_recent
-      render json: {articles: []}, status: 200 and return if articles_by_journalist == []
       render json: articles_by_journalist, each_serializer: ArticlesIndexSerializer and return
     end
-    if articles == []
-      render json: {articles: []}, status: 200
-    elsif params[:category]
+    if params[:category]
       articles_by_category = Article.where(category: params[:category])
-      if articles_by_category == []
-        render json: { error_message: 'There is no Articles in this category' }, status: 404
-      else
-        render json: articles_by_category, each_serializer: ArticlesIndexSerializer
-      end
+      render json: articles_by_category, each_serializer: ArticlesIndexSerializer
     else
       render json: articles, each_serializer: ArticlesIndexSerializer
     end
@@ -49,7 +42,6 @@ class Api::ArticlesController < ApplicationController
 
   def role_authenticator
     return if current_user.journalist?
-
     render json: { error_message: 'You are not authorized to create an article' }, status: 403
   end
 end

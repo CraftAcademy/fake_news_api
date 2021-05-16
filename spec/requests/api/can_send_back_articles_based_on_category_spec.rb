@@ -22,12 +22,12 @@ RSpec.describe 'GET /api/articles/?category=Flat+Earth', type: :request do
       get '/api/articles/?category=Hollywood'
     end
 
-    it 'is expected to return status 404 ' do
-      expect(response).to have_http_status 404
+    it 'is expected to return status 200 ' do
+      expect(response).to have_http_status 200
     end
 
-    it 'is expected to return error message' do
-      expect(response_json['error_message']).to eq 'There is no Articles in this category'
+    it 'is expected to return an empty array' do
+      expect(response_json['articles']).to eq []
     end
   end
 end
