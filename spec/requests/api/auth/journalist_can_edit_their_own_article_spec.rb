@@ -2,6 +2,7 @@ RSpec.describe 'PUT /api/articles/:id', type: :request do
   let!(:journalist) { create(:user, role: 'journalist') }
   let!(:article) { create(:article, title: 'Old Article', user_id: journalist.id) }
   let(:auth_headers) { journalist.create_new_auth_token }
+  let(:updated_article) { Article.find(article.id) }
 
   describe 'successfully' do
     before do
@@ -20,23 +21,29 @@ RSpec.describe 'PUT /api/articles/:id', type: :request do
     it 'is expected to response with status 200' do
       expect(response).to have_http_status 200
     end
-    it 'is expected to return one article' do
-      expect(response_json['article'].count).to eq 1
+
+    it 'is expected to respond with message' do
+      expect(response_json['message']).to eq 'Your article has been successfully updated!'
     end
+
     it 'is expected to be the same journalist' do
-      expect(response_json['article']['user_id']).to eq journalist.id
+      expect(updated_article['user_id']).to eq journalist.id
     end
+
     it 'is expected to have new title' do
-      expect(response_json['article']['title']).to eq 'New Article'
+      expect(updated_article['title']).to eq 'New Article'
     end
+
     it 'is expected to have new teaser' do
-      expect(response_json['article']['teaser']).to eq 'Some damn teaser'
+      expect(updated_article['teaser']).to eq 'Some damn teaser'
     end
+
     it 'is expected to have new body' do
-      expect(response_json['article']['body']).to eq 'Husband found dead allegedly because he wasn\'t testing first or was he?!?!'
+      expect(updated_article['body']).to eq 'Husband found dead allegedly because he wasn\'t testing first or was he?!?!'
     end
+
     it 'is expected to have new category' do
-      expect(response_json['article']['category']).to eq 'Hollywood'
+      expect(updated_article['category']).to eq 'Hollywood'
     end
   end
 end
