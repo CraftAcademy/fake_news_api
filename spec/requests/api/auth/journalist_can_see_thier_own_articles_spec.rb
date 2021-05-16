@@ -33,5 +33,9 @@ RSpec.describe 'GET /api/articles', type: :request do
     it 'is expected to response with status 200' do
       expect(response).to have_http_status 200
     end
+
+    it 'is expected to return an empty array' do
+      expect(response_json['articles']).to eq []
+    end
   end
 end
