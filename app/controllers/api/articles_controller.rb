@@ -32,6 +32,12 @@ class Api::ArticlesController < ApplicationController
     end
   end
 
+  def update
+    article = Article.find(params[:id])
+    article.update(article_params)
+    render json: { message: 'Your article has been successfully updated!' }, status: 200
+  end
+
   private
 
   def method_name; end
@@ -42,6 +48,7 @@ class Api::ArticlesController < ApplicationController
 
   def role_authenticator
     return if current_user.journalist?
+
     render json: { error_message: 'You are not authorized to create an article' }, status: 403
   end
 end
