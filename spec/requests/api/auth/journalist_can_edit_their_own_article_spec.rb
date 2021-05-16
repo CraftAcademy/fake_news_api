@@ -67,4 +67,25 @@ RSpec.describe 'PUT /api/articles/:id', type: :request do
       expect(response_json['message']).to eq "Couldn\'t find Article with 'id'=#{article.id + 1}"
     end
   end
+
+  describe 'unsuccessfully, not updated because of missing params' do
+    before do
+      put "/api/articles/#{article.id}",
+          params: {
+            article: {
+              title: '',
+              teaser: '',
+              body: '',
+              category: ''
+            }
+          },
+          headers: auth_headers
+    end
+    it 'is expected to response with status 422' do
+      expect(response).to have_http_status 422
+    end
+    it 'is expected to give an error message' do
+      expect(response_json['message']).to eq "Article has not been updated"
+    end
+  end
 end
