@@ -41,8 +41,8 @@ RSpec.describe 'GET /api/articles', type: :request do
       get '/api/articles'
     end
 
-    it 'is expected to return 204 response status' do
-      expect(response).to have_http_status 204
+    it 'is expected to return 200 response status' do
+      expect(response).to have_http_status 200
     end
   end
 end
