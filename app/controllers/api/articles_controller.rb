@@ -6,12 +6,12 @@ class Api::ArticlesController < ApplicationController
     articles = Article.all.most_recent
     if current_user&.journalist?
       articles_by_journalist = Article.where(user_id: current_user.id).most_recent
-      render json: {}, status: 204 and return if articles_by_journalist == []
+      render json: {}, status: 200 and return if articles_by_journalist == []
 
       render json: articles_by_journalist, each_serializer: ArticlesIndexSerializer and return
     end
     if articles == []
-      render json: {}, status: 204
+      render json: {}, status: 200
     elsif params[:category]
       articles_by_category = Article.where(category: params[:category])
       if articles_by_category == []
