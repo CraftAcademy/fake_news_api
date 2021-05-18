@@ -11,8 +11,4 @@ class ArticlesShowSerializer < ActiveModel::Serializer
   def date
     object.created_at.strftime('%F, %H:%M')
   end
-
-  def image
-    object.image.service_url(expires_in: 1.hour, disposition: 'inline')
-  end
 end
