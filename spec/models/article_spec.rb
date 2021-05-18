@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 RSpec.describe Article, type: :model do
   describe 'db table' do
     it { is_expected.to have_db_column(:title).of_type(:string) }
@@ -13,8 +11,18 @@ RSpec.describe Article, type: :model do
     it { is_expected.to validate_presence_of :teaser }
     it { is_expected.to validate_presence_of :body }
     it { is_expected.to validate_presence_of :category }
-    it { is_expected.to validate_inclusion_of(:category).
-          in_array(['Science', 'Aliens', 'Covid', 'Illuminati', 'Politics', 'Hollywood'])}
+    it {
+      is_expected.to validate_inclusion_of(:category)
+        .in_array(%w[Science Aliens Covid Illuminati Politics Hollywood])
+    }
+  end
+
+  describe '#image' do
+    subject { create(:article).image }
+
+    it {
+      is_expected.to be_an_instance_of ActiveStorage::Attached::One
+    }
   end
 
   describe 'Relationship between article and user' do
