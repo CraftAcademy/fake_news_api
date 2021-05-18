@@ -18,7 +18,6 @@ class Api::ArticlesController < ApplicationController
 
   def show
     article = Article.find(params[:id])
-    binding.pry
     render json: article, serializer: ArticlesShowSerializer
   end
 
@@ -44,7 +43,6 @@ class Api::ArticlesController < ApplicationController
   private
 
   def attach_image(article)
-    binding.pry
     params[:article][:image].present? && DecodeService.attach_image(params[:article][:image].first, article.image)
   end
 
