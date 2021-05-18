@@ -32,6 +32,7 @@ RSpec.describe 'GET /api/articles', type: :request do
     end
 
     it 'is expected to have a category' do
+      binding.pry
       expect(response_json['articles'].first['category']).to eq 'Science'
     end
   end
