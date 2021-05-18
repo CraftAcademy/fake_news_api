@@ -39,3 +39,7 @@ user = User.create(email: 'mrfake@fakenews.com', password: 'password', password_
   Article.create(title: titles[i], teaser: teasers[i], body: body[i], category: categories[rand(categories.count - 1)],
                  user_id: user.id)
 end
+
+Article.all.each do |article|
+  article.image.attach(io: File.open('storage/seed_image.jpg'), filename: 'seed_image.jpg', content_type: 'image/jpg')
+end
