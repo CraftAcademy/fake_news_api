@@ -1,7 +1,7 @@
 module DecodeService
   def self.attach_image(file, target)
     image = split_base64_string(file)
-    decoded_data = Base64.decode64(file)
+    decoded_data = Base64.decode64(image[:data])
     io = StringIO.new
     io.puts(decoded_data)
     io.rewind

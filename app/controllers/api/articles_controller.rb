@@ -18,6 +18,7 @@ class Api::ArticlesController < ApplicationController
 
   def show
     article = Article.find(params[:id])
+    binding.pry
     render json: article, serializer: ArticlesShowSerializer
   end
 
@@ -43,13 +44,14 @@ class Api::ArticlesController < ApplicationController
   private
 
   def attach_image(article)
+    binding.pry
     params[:article][:image].present? && DecodeService.attach_image(params[:article][:image].first, article.image)
   end
 
   def method_name; end
 
-  def article_params
-    params[:article].permit(:title, :teaser, :body, :category, :image)
+  def article_params    
+    params[:article].permit(:title, :teaser, :body, :category)   
   end
 
   def role_authenticator
