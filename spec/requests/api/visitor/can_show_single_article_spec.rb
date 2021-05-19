@@ -1,7 +1,18 @@
 RSpec.describe "GET /api/articles/:id" do
   let!(:article) { create(:article)}
+
   describe "successfully" do
     before do
+      post '/api/ratings',
+      params: {
+        article_id: article.id,
+        rating: 5
+      }
+      post '/api/ratings',
+      params: {
+        article_id: article.id,
+        rating: 2
+      }
       get "/api/articles/#{article.id}"
     end
 
@@ -35,6 +46,10 @@ RSpec.describe "GET /api/articles/:id" do
 
     it 'is expected to show category' do
       expect(response_json['article']['category']).to eq "Science"
+    end
+
+    it 'is expected to show average rating' do
+      expect(response_json['article']['rating']).to eq 3.5
     end
   end
 
