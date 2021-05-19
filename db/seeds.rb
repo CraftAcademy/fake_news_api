@@ -1,3 +1,5 @@
+require 'uri'
+
 titles = [
   'New Vaccine Conspiracy Theories Are Going Viral in Arabic',
   '‘It is a trap!’: Inside the QAnon attack that never happened',
@@ -30,6 +32,16 @@ body = [
   The post links to an article on US website DC Dirty Laundry.'
 ]
 
+image_url = [
+  'https://scopeblog.stanford.edu/wp-content/uploads/2020/12/Vaccine-story-for-Blog-Bruce-1152x578.jpeg',
+  'https://media-cldnry.s-nbcnews.com/image/upload/newscms/2018_31/2520081/180804-qanon-2-al-1515-2520081.jpg',
+  'https://www.theprogress.com/wp-content/uploads/2020/12/23761921_web1_201228-CPL-TOPSTORIES-WrapUp-Paul-2020_1.jpg',
+  'https://c.ndtvimg.com/2020-02/327skdeg_mike-hudges_625x300_24_February_20.jpg',
+  'https://specials-images.forbesimg.com/imageserve/5f8721ce19c279aa96859662/960x0.jpg?cropX1=1074&cropX2=6553&cropY1=0&cropY2=3083',
+  'https://images.idgesg.net/images/article/2020/09/swatting_swat-team_raid_police_by-onfokus-getty-images-100856787-large.jpg',
+  'https://image.cnbcfm.com/api/v1/image/106839139-16130497352021-02-11t023837z_615145576_rc22ql9gyycy_rtrmadp_0_health-coronavirus-usa.jpeg?v=1613049772&w=1600&h=900'
+]
+
 categories = ['Science', 'Aliens', 'Covid', 'Illuminati', 'Politics', 'Hollywood']
 
 user = User.create(email: 'mrfake@fakenews.com', password: 'password', password_confirmation: 'password',
@@ -40,6 +52,8 @@ user = User.create(email: 'mrfake@fakenews.com', password: 'password', password_
                  user_id: user.id)
 end
 
-Article.all.each do |article|
-  article.image.attach(io: File.open('storage/seed_image.jpg'), filename: 'seed_image.jpg', content_type: 'image/jpg')
+Article.all.each_with_index do |article, index|
+  file = URI.open(image_url[index])
+  
+  article.image.attach(io: file, filename: 'article_image.jpg', content_type: 'image/jpg')
 end

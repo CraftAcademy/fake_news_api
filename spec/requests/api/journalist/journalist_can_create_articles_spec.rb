@@ -2,7 +2,7 @@ RSpec.describe 'POST /api/articles', type: :request do
   let(:journalist) { create(:user, role: 'journalist') }
   let(:auth_headers) { journalist.create_new_auth_token }
   let(:image) do
-    [ File.read(fixture_path + '/fake-news-fixture.txt') ]
+    File.read(fixture_path + '/fake-news-fixture.txt')
   end
 
   describe 'successfully' do
