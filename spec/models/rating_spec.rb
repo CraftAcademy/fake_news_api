@@ -9,7 +9,7 @@ RSpec.describe Rating, type: :model do
     it { is_expected.to validate_presence_of :article_id }
     it {
       is_expected.to validate_inclusion_of(:rating)
-        .in_array([1..5])
+        .in_array((1..5).to_a)
     }
   end
 
