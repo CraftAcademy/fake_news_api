@@ -23,7 +23,7 @@ class Api::ArticlesController < ApplicationController
 
   def create
     article = current_user.articles.create(article_params)
-    if article.persisted?
+    if article.persisted? && attach_image(article)
       render json: { message: 'Your article has been successfully created!' }, status: 201
     else
       render json: { error_message: 'Please fill in all required fields' }, status: 422
@@ -42,10 +42,14 @@ class Api::ArticlesController < ApplicationController
 
   private
 
+  def attach_image(article)
+    params[:article][:image].present? && DecodeService.attach_image(params[:article][:image], article.image)
+  end
+
   def method_name; end
 
-  def article_params
-    params[:article].permit(:title, :teaser, :body, :category)
+  def article_params    
+    params[:article].permit(:title, :teaser, :body, :category)   
   end
 
   def role_authenticator
