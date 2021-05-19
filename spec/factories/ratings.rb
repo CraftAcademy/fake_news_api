@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :rating do
     rating { 5 }
-    association :article
+    association :article, :user
   end
 end
