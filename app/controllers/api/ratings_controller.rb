@@ -1,6 +1,8 @@
 class Api::RatingsController < ApplicationController
   def create
-    Rating.create({ rating: params[:rating] })
+    article = Article.find(params[:article_id])
+    article.ratings.create(rating: params[:rating])
+    render json: { message: 'You successfuly rated this article' }, status: 201
   end
 
   private
