@@ -1,17 +1,24 @@
-RSpec.describe 'PUT /api/ratings', type: :request do
+RSpec.describe 'POST /api/ratings', type: :request do
   let!(:member) { create(:user, role: 'member') }
   let(:article) { create(:article) }
-  let(:rating) {Rating.where(article_id: article.id)}
+  let(:rating) { Rating.where(article_id: article.id) }
   let(:auth_headers) { member.create_new_auth_token }
 
   describe 'successfully' do
     before do
-      put '/api/ratings',
-      params: {
-        article_id: article.id,
-        rating: 5
-      },
-      headers: auth_headers
+      post '/api/ratings',
+           params: {
+             article_id: article.id,
+             rating: 5
+           },
+           headers: auth_headers
+
+      post '/api/ratings',
+           params: {
+             article_id: article.id,
+             rating: 3
+           },
+           headers: auth_headers
     end
 
     it 'is expected to respond with 201' do
