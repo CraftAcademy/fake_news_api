@@ -13,7 +13,7 @@ class Api::RatingsController < ApplicationController
         render_success
       else
         render json: { error_message: 'Can not process recieved parameters' }, status: 422
-      end      
+      end
     end
   end
 

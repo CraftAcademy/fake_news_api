@@ -29,12 +29,12 @@ RSpec.describe 'POST /api/ratings', type: :request do
       expect(response_json['message']).to eq 'You successfuly rated this article'
     end
 
-    it 'is expected to have one rating' do
-      expect(rating.length).to eq 1
+    it 'is expected to update the existing rating' do
+      expect(rating.first['rating']).to eq 3
     end
 
-    it 'is expected to have a rating of 3' do
-      expect(rating.first['rating']).to eq 3
+    it 'is expected that member have a single rating' do
+      expect(member.ratings.length).to eq 1
     end
   end
 

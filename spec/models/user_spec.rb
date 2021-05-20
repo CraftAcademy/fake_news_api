@@ -19,6 +19,10 @@ RSpec.describe User, type: :model do
     it { is_expected.to have_many(:articles) }
   end
 
+  describe 'Relationship between user and ratings' do
+    it { is_expected.to have_many(:ratings) }
+  end
+
   describe 'factory' do
     it 'is expected to have a default factory' do
       expect(create(:user)).to be_valid
