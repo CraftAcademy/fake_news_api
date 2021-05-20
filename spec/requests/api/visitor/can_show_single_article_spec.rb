@@ -1,51 +1,51 @@
-RSpec.describe "GET /api/articles/:id" do
-  let!(:article) { create(:article)}
+RSpec.describe 'GET /api/articles/:id' do
+  let!(:article) { create(:article) }
 
-  describe "successfully" do
+  describe 'successfully' do
     before do
       post '/api/ratings',
-      params: {
-        article_id: article.id,
-        rating: 5
-      }
+           params: {
+             article_id: article.id,
+             rating: 5
+           }
       post '/api/ratings',
-      params: {
-        article_id: article.id,
-        rating: 2
-      }
+           params: {
+             article_id: article.id,
+             rating: 2
+           }
       get "/api/articles/#{article.id}"
     end
 
-    it "is expected to return 200 status" do
+    it 'is expected to return 200 status' do
       expect(response).to have_http_status 200
     end
 
-    it "is expected to return title" do
-      expect(response_json["article"]["title"]).to eq "First title"
+    it 'is expected to return title' do
+      expect(response_json['article']['title']).to eq 'First title'
     end
 
-    it "is expected to return title" do
-      expect(response_json["article"]["teaser"]).to eq "some text"
+    it 'is expected to return title' do
+      expect(response_json['article']['teaser']).to eq 'some text'
     end
 
-    it "is expected to return body" do
-      expect(response_json["article"]["body"]).to eq "Husband found dead allegedly because he wasn't testing first"
+    it 'is expected to return body' do
+      expect(response_json['article']['body']).to eq "Husband found dead allegedly because he wasn't testing first"
     end
 
-    it "is expected to return date" do
-      expect(response_json["article"]["date"]).to eq Time.zone.now.strftime("%F, %H:%M")
+    it 'is expected to return date' do
+      expect(response_json['article']['date']).to eq Time.zone.now.strftime('%F, %H:%M')
     end
 
     it "is expected to include author's first name" do
-      expect(response_json["article"]["author"]["first_name"]).to eq "Mr."
+      expect(response_json['article']['author']['first_name']).to eq 'Mr.'
     end
 
     it "is expected to include author's last name" do
-      expect(response_json["article"]["author"]["last_name"]).to eq "Fake"
+      expect(response_json['article']['author']['last_name']).to eq 'Fake'
     end
 
     it 'is expected to show category' do
-      expect(response_json['article']['category']).to eq "Science"
+      expect(response_json['article']['category']).to eq 'Science'
     end
 
     it 'is expected to show average rating' do
