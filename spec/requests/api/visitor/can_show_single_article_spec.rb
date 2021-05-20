@@ -1,4 +1,8 @@
 RSpec.describe 'GET /api/articles/:id' do
+  let!(:member1) { create(:user, role: 'member') }
+  let(:auth_headers1) { member1.create_new_auth_token }
+  let!(:member2) { create(:user, role: 'member') }
+  let(:auth_headers2) { member2.create_new_auth_token }
   let!(:article) { create(:article) }
 
   describe 'successfully' do
@@ -7,12 +11,14 @@ RSpec.describe 'GET /api/articles/:id' do
            params: {
              article_id: article.id,
              rating: 5
-           }
+           },
+           headers: auth_headers1
       post '/api/ratings',
            params: {
              article_id: article.id,
              rating: 2
-           }
+           },
+           headers: auth_headers2
       get "/api/articles/#{article.id}"
     end
 

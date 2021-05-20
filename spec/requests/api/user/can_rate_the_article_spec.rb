@@ -21,16 +21,20 @@ RSpec.describe 'POST /api/ratings', type: :request do
            headers: auth_headers
     end
 
-    it 'is expected to respond with 201' do
-      expect(response).to have_http_status 201
+    it 'is expected to respond with 200' do
+      expect(response).to have_http_status 200
     end
 
     it 'is expected to respond with a message' do
       expect(response_json['message']).to eq 'You successfuly rated this article'
     end
 
-    it 'is expected to have a rating' do
-      expect(rating.first['rating']).to eq 5
+    it 'is expected to have one rating' do
+      expect(rating.length).to eq 1
+    end
+
+    it 'is expected to have a rating of 3' do
+      expect(rating.first['rating']).to eq 3
     end
   end
 end
