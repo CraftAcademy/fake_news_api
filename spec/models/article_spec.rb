@@ -29,6 +29,10 @@ RSpec.describe Article, type: :model do
     it { is_expected.to belong_to(:user) }
   end
 
+  describe 'Relationship between article and ratings' do
+    it { is_expected.to have_many(:ratings) }
+  end
+
   describe 'Factory' do
     it 'is expected to have valid Factory' do
       expect(create(:article)).to be_valid
