@@ -37,4 +37,20 @@ RSpec.describe 'POST /api/ratings', type: :request do
       expect(rating.first['rating']).to eq 3
     end
   end
+
+  describe 'Unsuccessfully with wrong credentials' do
+    before do
+      post '/api/ratings',
+           params: {
+             article_id: article.id,
+             rating: 5
+           }
+    end
+    it 'is expected to response with status 401 ' do
+      expect(response).to have_http_status 401
+    end
+    it 'is expected to have error message' do
+      expect(response_json['errors'].first).to eq 'You need to sign in or sign up before continuing.'
+    end
+  end
 end
