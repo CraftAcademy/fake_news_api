@@ -46,10 +46,8 @@ class Api::ArticlesController < ApplicationController
     params[:article][:image].present? && DecodeService.attach_image(params[:article][:image], article.image)
   end
 
-  def method_name; end
-
-  def article_params    
-    params[:article].permit(:title, :teaser, :body, :category)   
+  def article_params
+    params[:article].permit(:title, :teaser, :body, :category)
   end
 
   def role_authenticator
