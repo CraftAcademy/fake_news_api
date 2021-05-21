@@ -11,8 +11,10 @@ gem 'active_model_serializers'
 gem 'devise_token_auth', github: 'lynndylanhurley/devise_token_auth', branch: 'master'
 gem 'faker', git: 'https://github.com/faker-ruby/faker.git', branch: 'master'
 gem 'aws-sdk-s3', require: false
+gem 'stripe-rails'
 
 group :development, :test do
+  gem 'stripe-ruby-mock'
   gem 'shoulda-matchers'
   gem 'rspec-rails'
   gem 'factory_bot_rails'
