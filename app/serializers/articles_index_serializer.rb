@@ -18,6 +18,9 @@ class ArticlesIndexSerializer < ActiveModel::Serializer
   end
 
   def author
-    "#{object.user['first_name']} #{object.user['last_name']}" 
+    {
+      first_name: object.user.first_name,
+      last_name: object.user.last_name
+    }
   end
 end
