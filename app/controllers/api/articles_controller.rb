@@ -3,9 +3,9 @@ class Api::ArticlesController < ApplicationController
   before_action :role_authenticator, only: %i[create]
 
   def index
-    articles = Article.all.most_recent
+    articles = Article.all.sort_by { |article| article[:updated_at] }
     if current_user&.journalist?
-      articles_by_journalist = Article.where(user_id: current_user.id).most_recent
+      articles_by_journalist = Article.where(user_id: current_user.id).sort_by { |article| article[:updated_at] }.reverse
       render json: articles_by_journalist, each_serializer: ArticlesIndexSerializer and return
     end
     if params[:category]
@@ -48,8 +48,8 @@ class Api::ArticlesController < ApplicationController
 
   def method_name; end
 
-  def article_params    
-    params[:article].permit(:title, :teaser, :body, :category)   
+  def article_params
+    params[:article].permit(:title, :teaser, :body, :category)
   end
 
   def role_authenticator
