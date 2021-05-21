@@ -1,36 +1,24 @@
 Stripe.plan :yearly_subscription do |plan|
   plan.name = 'Fake News 12 month subscription'
-
   plan.amount = 10000
-
   plan.currency = 'sek'
-
   plan.interval = 'month'
-
   plan.interval_count = 12
 end
 
 Stripe.plan :half_year_subscription do |plan|
   plan.name = 'Fake News 6 month subscription'
-
   plan.amount = 11000
-
   plan.currency = 'sek'
-
   plan.interval = 'month'
-
   plan.interval_count = 6
 end
 
 Stripe.plan :monthly_subscription do |plan|
   plan.name = 'Fake News 12 month subscription'
-
   plan.amount = 13000
-
   plan.currency = 'sek'
-
   plan.interval = 'month'
-
   plan.interval_count = 1
 end
 

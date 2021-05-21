@@ -1,15 +1,18 @@
 RSpec.describe 'POST /api/subscriptions', type: :request do
+  let(:stripe_helper) {StripeMock.create_test_helper}
   before(:each) { StripeMock.start }
   after(:each) { StripeMock.stop }
-  let(:stripe_token) { StripeMock.create_test_helper.generate_card_token }
-  let(:plan) do
+  let(:stripe_token) { stripe_helper.generate_card_token }
+  let(:product) { stripe_helper.create_product }
+  let!(:plan) do
     stripe_helper.create_plan(
       id: 'yearly_subscription',
       name: 'Fake News 12 month subscription',
       amount: 10000,
       currency: 'sek',
       interval: 'month',
-      interval_count: 12
+      interval_count: 12,
+      product: product.id
     )
   end
   let!(:member) { create(:user, role: 'member', email: 'wannabe_subscriber@gmail.com') }
@@ -18,6 +21,7 @@ RSpec.describe 'POST /api/subscriptions', type: :request do
   describe 'successfully' do
     before do
       post '/api/subscriptions', params: {
+        plan: 'yearly_subscription',
         stripeToken: stripe_token
       }, headers: auth_headers
       member.reload
