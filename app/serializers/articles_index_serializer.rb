@@ -1,8 +1,8 @@
 class ArticlesIndexSerializer < ActiveModel::Serializer
-  attributes :id, :title, :teaser, :date, :category, :image, :rating
+  attributes :id, :title, :teaser, :date, :category, :image, :rating, :author
 
   def date
-    object.created_at.strftime('%F, %H:%M')
+    object.updated_at.strftime('%F, %H:%M')
   end
 
   def image
@@ -15,5 +15,12 @@ class ArticlesIndexSerializer < ActiveModel::Serializer
 
   def rating
     Rating.where(article_id: object.id).average(:rating).to_f
+  end
+
+  def author
+    {
+      first_name: object.user.first_name,
+      last_name: object.user.last_name
+    }
   end
 end
