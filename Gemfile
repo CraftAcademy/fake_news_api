@@ -14,7 +14,7 @@ gem 'aws-sdk-s3', require: false
 gem 'stripe-rails'
 
 group :development, :test do
-  gem 'stripe-ruby-mock'
+  gem 'stripe-ruby-mock', '~> 3.1.0.rc2', require: 'stripe_mock'
   gem 'shoulda-matchers'
   gem 'rspec-rails'
   gem 'factory_bot_rails'
