@@ -1,8 +1,8 @@
 RSpec.describe 'POST /api/ratings', type: :request do
-  let!(:member) { create(:user, role: 'member') }
+  let!(:subscriber) { create(:user, role: 'subscriber') }
   let(:article) { create(:article) }
   let(:rating) { Rating.where(article_id: article.id) }
-  let(:auth_headers) { member.create_new_auth_token }
+  let(:auth_headers) { subscriber.create_new_auth_token }
 
   describe 'successfully' do
     before do
@@ -34,7 +34,7 @@ RSpec.describe 'POST /api/ratings', type: :request do
     end
 
     it 'is expected that member have a single rating' do
-      expect(member.ratings.length).to eq 1
+      expect(subscriber.ratings.length).to eq 1
     end
   end
 
