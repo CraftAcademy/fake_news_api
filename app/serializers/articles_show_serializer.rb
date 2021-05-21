@@ -1,5 +1,5 @@
 class ArticlesShowSerializer < ActiveModel::Serializer
-  attributes :id, :title, :teaser, :body, :date, :author, :category, :image, :rating
+  attributes :id, :title, :teaser, :body, :date, :author, :category, :image, :rating, :author
 
   def author
     {
@@ -22,5 +22,9 @@ class ArticlesShowSerializer < ActiveModel::Serializer
 
   def rating
     Rating.where(article_id: object.id).average(:rating).to_f
+  end
+
+  def author
+    "#{object.user['first_name']} #{object.user['last_name']}"
   end
 end
