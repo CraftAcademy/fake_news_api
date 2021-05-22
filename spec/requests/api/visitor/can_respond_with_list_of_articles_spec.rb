@@ -34,6 +34,9 @@ RSpec.describe 'GET /api/articles', type: :request do
     it 'is expected to have a category' do
       expect(response_json['articles'].first['category']).to eq 'Science'
     end
+    it 'is expected to have a premium' do
+      expect(response_json['articles'].first['premium']).to eq true
+    end
   end
 
   describe 'unsuccessfully if no articles in database' do
