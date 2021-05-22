@@ -48,8 +48,7 @@ user = User.create(email: 'mrfake@fakenews.com', password: 'password', password_
                    first_name: 'Mr.', last_name: 'Fake', role: 5)
 
 (0...titles.count).each do |i|
- article = Article.create(title: titles[i], teaser: teasers[i], body: body[i], category: categories[rand(categories.count - 1)],
-                 user_id: user.id)
+ article = Article.create(title: titles[i], teaser: teasers[i], body: body[i], category: categories[rand(categories.count - 1)], user_id: user.id, premium: [true, false].sample)
   Rating.create(user_id: user.id, article_id: article.id, rating: 3 )
 end
 
