@@ -42,18 +42,22 @@ image_url = [
   'https://image.cnbcfm.com/api/v1/image/106839139-16130497352021-02-11t023837z_615145576_rc22ql9gyycy_rtrmadp_0_health-coronavirus-usa.jpeg?v=1613049772&w=1600&h=900'
 ]
 
-categories = ['Science', 'Aliens', 'Covid', 'Illuminati', 'Politics', 'Hollywood']
+categories = %w[Science Aliens Covid Illuminati Politics Hollywood]
 
-user = User.create(email: 'mrfake@fakenews.com', password: 'password', password_confirmation: 'password',
-                   first_name: 'Mr.', last_name: 'Fake', role: 5)
+journalist = User.create(email: 'mrfake@fakenews.com', password: 'password', password_confirmation: 'password',
+                         first_name: 'Mr.', last_name: 'Fake', role: 5)
+
+subscriber = User.create(email: 'subscriber@gmail.com', password: 'password', password_confirmation: 'password',
+                         first_name: 'Bob', last_name: 'Kramer', role: 2)
 
 (0...titles.count).each do |i|
- article = Article.create(title: titles[i], teaser: teasers[i], body: body[i], category: categories[rand(categories.count - 1)], user_id: user.id, premium: [true, false].sample)
-  Rating.create(user_id: user.id, article_id: article.id, rating: 3 )
+  article = Article.create(title: titles[i], teaser: teasers[i], body: body[i],
+                           category: categories[rand(categories.count - 1)], user_id: user.id, premium: [true, false].sample)
+  Rating.create(user_id: journalist.id, article_id: article.id, rating: 3)
 end
 
 Article.all.each_with_index do |article, index|
   file = URI.open(image_url[index])
-  
+
   article.image.attach(io: file, filename: 'article_image.jpg', content_type: 'image/jpg')
 end
