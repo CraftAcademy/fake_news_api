@@ -12,7 +12,7 @@ RSpec.describe User, type: :model do
   end
 
   describe 'role' do
-    it { is_expected.to define_enum_for(:role).with_values({ member: 1, journalist: 5 }) }
+    it { is_expected.to define_enum_for(:role).with_values({ member: 1, subscriber: 2, journalist: 5 }) }
   end
 
   describe 'Relationship between article and user' do
