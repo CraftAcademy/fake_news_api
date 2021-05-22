@@ -26,7 +26,7 @@ module FakeNewsApi
       generate.controller_specs false
       generate.request_specs false
     end
-    config.stripe.publishable_key = Rails.application.credentials.stripe[:publishable_key]
-    config.stripe.secret_key = Rails.application.credentials.stripe[:secret_key]
+    config.stripe.publishable_key = 'pk_test_51IovvJL7WvJmM60Hf2OVas98LZcERwohgrfHfsqEpnjGYIenQB6aNPFBPFmxIYf2enlQYKtWdLae7Jgjv1FwLwsE00r9IeAFuD'
+    config.stripe.secret_key = 'sk_test_51IovvJL7WvJmM60HFPImrEIk25YfJ3ovv4YOLXN77R43J7ZmPth8fKKvi2qoneds5w50RAblSRPIlaIXo2PMFEhy00w7WvCun0'
   end
 end
