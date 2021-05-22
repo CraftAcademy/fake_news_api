@@ -7,8 +7,10 @@ class Api::RegistrationsController < DeviseTokenAuth::RegistrationsController
     if payment_status(customer, subscription)
       super
     else
-      render json: { message: 'Unable to process your payment, please try again!' }, status: 400
+      render json: { message: 'Unable to process payment, please try again later' }, status: 400
     end
+  rescue StandardError => e
+    render json: { message: 'Unable to process payment, please try again later' }, status: 400
   end
 
   private
