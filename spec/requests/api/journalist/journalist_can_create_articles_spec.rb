@@ -14,7 +14,8 @@ RSpec.describe 'POST /api/articles', type: :request do
                teaser: 'Some damn teaser',
                body: "Husband found dead allegedly because he wasn't testing first",
                category: 'Hollywood',
-               image: image
+               image: image,
+               premium: true
              }
            },
            headers: auth_headers
@@ -49,7 +50,8 @@ RSpec.describe 'POST /api/articles', type: :request do
                title: 'Obnoxious Title',
                teaser: 'Some damn teaser',
                body: "Husband found dead allegedly because he wasn't testing first",
-               category: 'Hollywood'
+               category: 'Hollywood',
+               premium: true
              }
            },
            headers: auth_headers_member
@@ -77,7 +79,8 @@ RSpec.describe 'POST /api/articles', type: :request do
                title: 'Obnoxious Title',
                teaser: 'Some damn teaser',
                body: "Husband found dead allegedly because he wasn't testing first",
-               category: 'Hollywood'
+               category: 'Hollywood',
+               premium: true
              }
            },
            headers: { wrong_headers: 'wrong headers' }
@@ -100,7 +103,8 @@ RSpec.describe 'POST /api/articles', type: :request do
                title: '',
                teaser: 'Some damn teaser',
                body: "Husband found dead allegedly because he wasn't testing first",
-               category: 'Hollywood'
+               category: 'Hollywood',
+               premium: true
              }
            },
            headers: auth_headers
