@@ -1,17 +1,14 @@
 class Api::RegistrationsController < DeviseTokenAuth::RegistrationsController
   def create
-    binding.pry
-
-    customer = Stripe::Customer.list(params[:email]).data.first
+    customer = Stripe::Customer.list(email: params[:email]).data.first
     customer ||= Stripe::Customer.create({ email: params[:email], source: params[:stripeToken] })
     subscription = Stripe::Subscription.create({ customer: customer.id, plan: params[:plan] })
 
     if payment_status(customer, subscription)
-      
+      super
     else
       render json: { message: 'Unable to process your payment, please try again!' }, status: 400
     end
-
   end
 
   private

@@ -25,6 +25,7 @@ RSpec.describe 'POST /api/auth', type: :request do
         first_name: 'Bob',
         last_name: 'Kramer',
         plan: 'yearly_subscription',
+        role: 'subscriber',
         stripeToken: stripe_token
       }
     end
@@ -33,13 +34,12 @@ RSpec.describe 'POST /api/auth', type: :request do
       expect(response).to have_http_status 200
     end
 
-    it 'is expected to return success message' do
-      expected_response = { message: 'Thank you for subscribing!', paid: true }
-      expect(response_json).to eq expected_response.as_json
+    it 'is expected to respond with success message' do
+      expect(response_json['status']).to eq 'success'
     end
 
     it 'is expected to upgrade member to subscriber' do
-      expect(member.subscriber?).to eq true
+      expect(User.find_by(email: 'fake@email.com').subscriber?).to eq true
     end
   end
 
