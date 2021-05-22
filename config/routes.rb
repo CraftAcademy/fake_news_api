@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'api/auth', controllers: {
-    sessions: 'api/sessions'
+    sessions: 'api/sessions', 
+    registrations: 'api/registrations'
   }
   namespace :api do
     resources :ratings, only: [:create]
