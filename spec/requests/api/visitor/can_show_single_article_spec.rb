@@ -1,8 +1,8 @@
 RSpec.describe 'GET /api/articles/:id' do
-  let!(:member1) { create(:user, role: 'member') }
-  let(:auth_headers1) { member1.create_new_auth_token }
-  let!(:member2) { create(:user, role: 'member') }
-  let(:auth_headers2) { member2.create_new_auth_token }
+  let!(:subscriber1) { create(:user, role: 'subscriber') }
+  let(:auth_headers1) { subscriber1.create_new_auth_token }
+  let!(:subscriber2) { create(:user, role: 'subscriber') }
+  let(:auth_headers2) { subscriber2.create_new_auth_token }
   let!(:article) { create(:article) }
 
   describe 'successfully' do
