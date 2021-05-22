@@ -54,6 +54,10 @@ RSpec.describe 'GET /api/articles/:id' do
       expect(response_json['article']['category']).to eq 'Science'
     end
 
+    it 'is expected to show if it is premium' do
+      expect(response_json['article']['premium']).to eq true
+    end
+
     it 'is expected to show average rating' do
       expect(response_json['article']['rating']).to eq 3.5
     end
