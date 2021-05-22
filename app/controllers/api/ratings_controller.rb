@@ -1,19 +1,23 @@
 class Api::RatingsController < ApplicationController
-  before_action :authenticate_user!, only: %i[create]
+  before_action :authenticate_user!, only: %i[create] 
 
   def create
-    article = Article.find(params[:article_id])
-    rating = Rating.find_by(user_id: current_user.id, article_id: params[:article_id])
-    if rating
-      rating.update(rating_params)
-      render_success
-    else
-      new_rating = article.ratings.create(rating_params)
-      if new_rating.persisted?
+    unless current_user.member?
+      article = Article.find(params[:article_id])
+      rating = Rating.find_by(user_id: current_user.id, article_id: params[:article_id])
+      if rating
+        rating.update(rating_params)
         render_success
       else
-        render json: { error_message: 'Can not process recieved parameters' }, status: 422
+        new_rating = article.ratings.create(rating_params)
+        if new_rating.persisted?
+          render_success
+        else
+          render json: { error_message: 'Can not process recieved parameters' }, status: 422
+        end
       end
+    else
+      render json: { error_message: 'Please subscribe to rate an article.' }, status: 401
     end
   end
 
