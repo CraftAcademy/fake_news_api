@@ -1,4 +1,4 @@
-RSpec.describe 'POST /api/subscriptions', type: :request do
+RSpec.describe 'POST /api/auth', type: :request do
   let(:stripe_helper) { StripeMock.create_test_helper }
   before(:each) { StripeMock.start }
   after(:each) { StripeMock.stop }
@@ -15,16 +15,18 @@ RSpec.describe 'POST /api/subscriptions', type: :request do
       product: product.id
     )
   end
-  let!(:member) { create(:user, role: 'member', email: 'wannabe_subscriber@gmail.com') }
-  let(:auth_headers) { member.create_new_auth_token }
 
   describe 'successfully' do
     before do
-      post '/api/subscriptions', params: {
+      post '/api/auth', params: {
+        email: 'fake@email.com',
+        password: 'password',
+        password_confirmation: 'password',
+        first_name: 'Bob',
+        last_name: 'Kramer',
         plan: 'yearly_subscription',
         stripeToken: stripe_token
-      }, headers: auth_headers
-      member.reload
+      }
     end
 
     it 'is expected to return status 200' do
@@ -48,7 +50,7 @@ RSpec.describe 'POST /api/subscriptions', type: :request do
         plan: 'yearly_subscription',
         stripeToken: invalid_token
       }, headers: auth_headers
-      member.reload
+      # member.reload
     end
 
     it 'is expected to respond with status 401' do
@@ -59,10 +61,9 @@ RSpec.describe 'POST /api/subscriptions', type: :request do
       expect(response_json['message']).to eq 'Unable to process payment, please try again later'
     end
 
-    it "is expected to remove the created user from the database" do
-      expect(User.where(id: member.id)).to eq []  
+    it 'is expected to remove the created user from the database' do
+      expect { User.find(member.id) }.to raise_error ActiveRecord::RecordNotFound
     end
-    
   end
 
   describe 'unsuccesfully without authentication' do
@@ -80,6 +81,26 @@ RSpec.describe 'POST /api/subscriptions', type: :request do
 
     it 'is expected to respond with a message' do
       expect(response_json['errors'].first).to eq 'You need to sign in or sign up before continuing.'
+    end
+  end
+
+  describe 'unsuccesfully without stripe token' do
+    before do
+      post '/api/subscriptions', params: {
+        plan: 'yearly_subscription'
+      }, headers: auth_headers
+    end
+
+    it 'is expected to respond with status 401' do
+      expect(response).to have_http_status 401
+    end
+
+    it 'is expected to respond with a message' do
+      expect(response_json['message']).to eq 'Unable to process payment, please try again later'
+    end
+
+    it 'is expected to remove the created user from the database' do
+      expect { User.find(member.id) }.to raise_error ActiveRecord::RecordNotFound
     end
   end
 end
