@@ -4,6 +4,7 @@ RSpec.describe Article, type: :model do
     it { is_expected.to have_db_column(:teaser).of_type(:text) }
     it { is_expected.to have_db_column(:body).of_type(:text) }
     it { is_expected.to have_db_column(:category).of_type(:string) }
+    it { is_expected.to have_db_column(:premium).of_type(:boolean) }
   end
 
   describe 'Validation' do
@@ -11,6 +12,7 @@ RSpec.describe Article, type: :model do
     it { is_expected.to validate_presence_of :teaser }
     it { is_expected.to validate_presence_of :body }
     it { is_expected.to validate_presence_of :category }
+    it { is_expected.to validate_presence_of :premium }
     it {
       is_expected.to validate_inclusion_of(:category)
         .in_array(%w[Science Aliens Covid Illuminati Politics Hollywood])
