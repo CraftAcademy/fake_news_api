@@ -20,8 +20,7 @@ RSpec.describe 'POST api/auth/sign_in', type: :request do
       before do
         post '/api/auth/sign_in', params: {
           email: 'mrfake@fakenews.com',
-          password: 'password',
-          source: 'public-system'
+          password: 'password'
         }
       end
 
