@@ -13,11 +13,11 @@ RSpec.describe Article, type: :model do
   describe 'Validation' do
     it { is_expected.to validate_presence_of :title }
     it { is_expected.to validate_inclusion_of(:backyard).in_array([false, true]) }
+    it { is_expected.to validate_presence_of :body }
 
     context 'Normal article' do
       before { allow(subject).to receive(:is_backyard?).and_return(false) }
 
-      it { is_expected.to validate_presence_of :body }
       it { is_expected.to validate_presence_of :teaser }
       it { is_expected.to validate_presence_of :category }
       it { is_expected.to validate_inclusion_of(:premium).in_array([false, true]) }
