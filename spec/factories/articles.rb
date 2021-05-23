@@ -12,6 +12,7 @@ FactoryBot.define do
       article.image.attach(io: file, filename: 'article_image.jpg', content_type: 'image/jpg')
     end
   end
+  
   factory :backyard_article, class: Article do
     title { 'My cat is really spying on me' }
     body { 'My cat was flying yesterday' }
