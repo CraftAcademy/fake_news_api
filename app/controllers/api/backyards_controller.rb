@@ -5,6 +5,12 @@ class Api::BackyardsController < ApplicationController
     render json: backyard_articles, each_serializer: BackyardsIndexSerializer, root: :backyard_articles
   end
 
+  def show
+     backyard_article = Article.find(params[:id])
+    render json: backyard_article, serializer: BackyardsShowSerializerSerializer, root: :backyard_articles
+  end
+  
+
   private
 
   def get_country
