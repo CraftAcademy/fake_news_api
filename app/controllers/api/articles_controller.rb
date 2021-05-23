@@ -3,13 +3,13 @@ class Api::ArticlesController < ApplicationController
   before_action :role_authenticator, only: %i[create]
 
   def index
-    articles = Article.all.most_recent
+    articles = Article.all.public_articles.most_recent
     if current_user&.journalist?
-      articles_by_journalist = Article.where(user_id: current_user.id).most_recent
+      articles_by_journalist = Article.public_articles.where(user_id: current_user.id).most_recent
       render json: articles_by_journalist, each_serializer: ArticlesIndexSerializer and return
     end
     if params[:category]
-      articles_by_category = Article.where(category: params[:category])
+      articles_by_category = Article.public_articles.where(category: params[:category])
       render json: articles_by_category, each_serializer: ArticlesIndexSerializer
     else
       render json: articles, each_serializer: ArticlesIndexSerializer

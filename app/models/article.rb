@@ -1,9 +1,22 @@
 class Article < ApplicationRecord
-  validates_presence_of :title, :teaser, :body, :category
-  validates_inclusion_of :premium, in: [false, true]
-  scope :most_recent, -> { order(updated_at: :desc) }
+  validates_inclusion_of :backyard, in: [false, true]
+  validates_presence_of :title
   belongs_to :user
-  has_many :ratings
-  validates :category, inclusion: { in: %w[Science Aliens Covid Illuminati Politics Hollywood] }
+
+  scope :most_recent, -> { order(updated_at: :desc) }
+  scope :public_articles, -> { where(backyard: false) }
+
+  # Normal articles
+  validates :category, :body, :teaser, presence: true, unless: :is_backyard?
+  validates :premium, inclusion: { in: [false, true] }, unless: :is_backyard?
+  validates :category, inclusion: { in: %w[Science Aliens Covid Illuminati Politics Hollywood] }, unless: :is_backyard?
   has_one_attached :image
+  has_many :ratings
+
+  # Backyard articles
+  validates :theme, :location, presence: true, if: :is_backyard?
+
+  def is_backyard?
+    backyard
+  end
 end
