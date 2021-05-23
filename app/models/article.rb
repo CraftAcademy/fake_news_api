@@ -10,7 +10,7 @@ class Article < ApplicationRecord
   validates_inclusion_of :premium, in: [false, true], unless: :is_backyard?
   validates :category, inclusion: { in: %w[Science Aliens Covid Illuminati Politics Hollywood] }, unless: :is_backyard?
   has_one_attached :image
-  has_many :ratings, -> { where backyard: false }
+  has_many :ratings
 
   # Backyard articles
   validates :theme, :location, presence: true, if: :is_backyard?
