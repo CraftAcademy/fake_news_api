@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(version: 2021_05_22_132600) do
     t.text "body"
     t.bigint "user_id"
     t.string "category"
-    t.boolean "premium"
+    t.boolean "premium", default: false
     t.index ["user_id"], name: "index_articles_on_user_id"
   end
 
