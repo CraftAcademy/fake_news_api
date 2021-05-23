@@ -4,19 +4,34 @@ RSpec.describe Article, type: :model do
     it { is_expected.to have_db_column(:teaser).of_type(:text) }
     it { is_expected.to have_db_column(:body).of_type(:text) }
     it { is_expected.to have_db_column(:category).of_type(:string) }
+    it { is_expected.to have_db_column(:location).of_type(:string) }
+    it { is_expected.to have_db_column(:theme).of_type(:string) }
+    it { is_expected.to have_db_column(:backyard).of_type(:boolean) }
     it { is_expected.to have_db_column(:premium).of_type(:boolean) }
   end
 
   describe 'Validation' do
     it { is_expected.to validate_presence_of :title }
-    it { is_expected.to validate_presence_of :teaser }
-    it { is_expected.to validate_presence_of :body }
-    it { is_expected.to validate_presence_of :category }
-    it { is_expected.to validate_inclusion_of(:premium).in_array([false, true]) }
-    it {
-      is_expected.to validate_inclusion_of(:category)
-        .in_array(%w[Science Aliens Covid Illuminati Politics Hollywood])
-    }
+    it { is_expected.to validate_inclusion_of(:backyard).in_array([false, true]) }
+
+    context 'Normal article' do
+      before { allow(subject).to receive(:is_backyard?).and_return(false) }
+
+      it { is_expected.to validate_presence_of :body }
+      it { is_expected.to validate_presence_of :teaser }
+      it { is_expected.to validate_presence_of :category }
+      it { is_expected.to validate_inclusion_of(:premium).in_array([false, true]) }
+      it {
+        is_expected.to validate_inclusion_of(:category)
+          .in_array(%w[Science Aliens Covid Illuminati Politics Hollywood])
+      }
+    end
+
+    context 'Backyard article' do
+      before { allow(subject).to receive(:is_backyard?).and_return(true) }
+      it { is_expected.to validate_presence_of :theme }
+      it { is_expected.to validate_presence_of :location }
+    end
   end
 
   describe '#image' do
@@ -32,6 +47,7 @@ RSpec.describe Article, type: :model do
   end
 
   describe 'Relationship between article and ratings' do
+    before { allow(subject).to receive(:is_backyard?).and_return(false) }
     it { is_expected.to have_many(:ratings) }
   end
 
