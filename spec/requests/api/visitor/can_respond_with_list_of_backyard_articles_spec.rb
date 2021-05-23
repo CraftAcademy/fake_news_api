@@ -44,8 +44,8 @@ RSpec.describe 'GET /api/backyards', type: :request do
       expect(response_json['backyard_articles'].first['written_by']).to eq 'Mr. Fake'
     end
   
-    it 'is expected to return articles with a location' do
-      expect(response_json['backyard_articles'].first['location']).to eq 'Sweden'
+    it 'is expected to return location as its own object' do
+      expect(response_json['location']).to eq 'Sweden'
     end
   end
 
@@ -68,6 +68,10 @@ RSpec.describe 'GET /api/backyards', type: :request do
 
     it 'is expected to respond with an empty array' do
       expect(response_json['backyard_articles']).to eq []
+    end
+
+    it 'is expected to still respond with the location' do
+      expect(response_json['location']).to eq 'Sweden'
     end
   end
 end
