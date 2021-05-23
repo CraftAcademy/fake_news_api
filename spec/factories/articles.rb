@@ -4,6 +4,7 @@ FactoryBot.define do
     teaser { "some text" }
     body { "Husband found dead allegedly because he wasn't testing first" }
     association :user
+    backyard { false }
     category {"Science"}
     premium { true }
     after(:build) do |article|
