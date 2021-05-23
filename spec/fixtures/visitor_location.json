@@ -1,0 +1,26 @@
+{
+  "place_id": 167278793,
+  "licence": "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright",
+  "osm_type": "way",
+  "osm_id": 316896325,
+  "lat": "59.32021159999999",
+  "lon": "18.378402470899054",
+  "display_name": "32, Hjalmar Olssons väg, Charlottendal, Gustavsberg, Värmdö kommun, Stockholm County, 134 52, Sweden",
+  "address": {
+    "house_number": "32",
+    "road": "Hjalmar Olssons väg",
+    "suburb": "Charlottendal",
+    "town": "Gustavsberg",
+    "municipality": "Värmdö kommun",
+    "county": "Stockholm County",
+    "postcode": "134 52",
+    "country": "Sweden",
+    "country_code": "se"
+  },
+  "boundingbox": [
+    "59.320115",
+    "59.3202536",
+    "18.3782841",
+    "18.3785009"
+  ]
+}

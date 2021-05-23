@@ -12,6 +12,7 @@ gem 'devise_token_auth', github: 'lynndylanhurley/devise_token_auth', branch: 'm
 gem 'faker', git: 'https://github.com/faker-ruby/faker.git', branch: 'master'
 gem 'aws-sdk-s3', require: false
 gem 'stripe-rails'
+gem 'geocoder'
 
 group :development, :test do
   gem 'stripe-ruby-mock', '~> 3.1.0.rc2', require: 'stripe_mock'
@@ -19,6 +20,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_bot_rails'
   gem 'pry-rails'
+  gem 'webmock'
   gem 'coveralls', require: false
 end
 
