@@ -1,20 +1,20 @@
 RSpec.describe 'GET /api/backyards', type: :request do
-  # let!(:backyard_articles) {3.times {create(:backyard_article)}}
-  # let!(:backyard_articles) {2.times {create(:backyard_article, location: 'Denmark')}}
+  let!(:backyard_articles) { 3.times { create(:backyard_article) } }
+  let!(:backyard_articles_denmark) { 2.times { create(:backyard_article, location: 'Denmark') } }
   let(:vistor_location) do
     file_fixture('visitor_location.json').read
   end
 
   before do
     stub_request(:get, 'https://nominatim.openstreetmap.org/reverse?accept-language=en&addressdetails=1&format=json&lat=59.32021&lon=18.37827')
-    .with(
-      headers: {
-        'Accept' => '*/*',
-        'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-        'User-Agent' => 'Ruby'
-      }
-    )
-    .to_return(status: 200, body: vistor_location, headers: {})
+      .with(
+        headers: {
+          'Accept' => '*/*',
+          'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+          'User-Agent' => 'Ruby'
+        }
+      )
+      .to_return(status: 200, body: vistor_location, headers: {})
     get '/api/backyards/?lat=59.32021&lon=18.37827'
   end
 
@@ -23,7 +23,7 @@ RSpec.describe 'GET /api/backyards', type: :request do
   end
 
   it 'is expected to respond with a list of 3 articles' do
-    expect(response_json['backyard_articles'])
+    expect(response_json['backyard_articles'].count).to eq 3
   end
 
   it 'is expected to return articles with a title' do
@@ -35,7 +35,7 @@ RSpec.describe 'GET /api/backyards', type: :request do
   end
 
   it 'is expected to return articles with a title' do
-    expect(response_json['backyard_articles'].first['date']).to eq Time.zone.now().updated_at.strftime('%F, %H:%M')
+    expect(response_json['backyard_articles'].first['date']).to eq Time.zone.now.updated_at.strftime('%F, %H:%M')
   end
 
   it 'is expected to return articles with a title' do
