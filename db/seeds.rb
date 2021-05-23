@@ -43,25 +43,32 @@ image_url = [
 ]
 
 categories = %w[Science Aliens Covid Illuminati Politics Hollywood]
+
 themes = %w[Science Aliens Covid Trump Cats CIA Singles]
+
+puts 'Creating journalist...'
 journalist = User.create(email: 'mrfake@fakenews.com', password: 'password', password_confirmation: 'password',
                          first_name: 'Mr.', last_name: 'Fake', role: 5)
 
+puts 'Creating subscriber...'
 subscriber = User.create(email: 'subscriber@gmail.com', password: 'password', password_confirmation: 'password',
                          first_name: 'Bob', last_name: 'Kramer', role: 2)
 
+puts 'Creating articles...'
 (0...titles.count).each do |i|
   article = Article.create(title: titles[i], teaser: teasers[i], body: body[i],
                            category: categories[rand(categories.count - 1)], user_id: journalist.id, premium: [true, false].sample)
   Rating.create(user_id: journalist.id, article_id: article.id, rating: 3)
 end
 
+puts 'Attaching images to articles...'
 Article.all.each_with_index do |article, index|
   file = URI.open(image_url[index])
 
   article.image.attach(io: file, filename: 'article_image.jpg', content_type: 'image/jpg')
 end
 
+puts 'Creating backyard articles...'
 (0...titles.count).each do |i|
   backyard_article = Article.create(title: titles[i], backyard: true, location: ['Sweden','Denmark'].sample,
                                     theme: themes[i], user_id: subscriber.id)
