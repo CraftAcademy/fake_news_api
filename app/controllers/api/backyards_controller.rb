@@ -7,7 +7,7 @@ class Api::BackyardsController < ApplicationController
 
   def show
      backyard_article = Article.find(params[:id])
-    render json: backyard_article, serializer: BackyardsShowSerializerSerializer, root: :backyard_articles
+    render json: backyard_article, serializer: BackyardsShowSerializerSerializer, root: :backyard_article
   end
   
 
