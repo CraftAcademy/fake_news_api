@@ -2,7 +2,18 @@ RSpec.describe 'POST /api/auth', type: :request do
   let(:stripe_helper) { StripeMock.create_test_helper }
   before(:each) { StripeMock.start }
   after(:each) { StripeMock.stop }
-  let(:stripe_token) { stripe_helper.generate_card_token }
+  let(:payment_method) {
+    Stripe::PaymentMethod.create({
+      type: 'card',
+      card: {
+        number: '4242424242424242',
+        exp_month: 5,
+        exp_year: 2022,
+        cvc: '314',
+      },
+    })
+  }
+
   let(:product) { stripe_helper.create_product }
   let!(:plan) do
     stripe_helper.create_plan(
@@ -26,7 +37,7 @@ RSpec.describe 'POST /api/auth', type: :request do
         last_name: 'Kramer',
         plan: 'yearly_subscription',
         role: 'subscriber',
-        stripeToken: stripe_token
+        stripe_details: payment_method
       }
     end
 
@@ -43,8 +54,8 @@ RSpec.describe 'POST /api/auth', type: :request do
     end
   end
 
-  describe 'unsuccessfully with invalid token' do
-    let(:invalid_token) { '12345678' }
+  describe 'unsuccessfully with invalid payment method' do
+    let(:invalid_token) { {"id" => "pm_test_wrong"} }
     before do
       post '/api/auth', params: {
         email: 'fake@email.com',
@@ -54,7 +65,7 @@ RSpec.describe 'POST /api/auth', type: :request do
         last_name: 'Kramer',
         plan: 'yearly_subscription',
         role: 'subscriber',
-        stripeToken: invalid_token
+        stripeToken: invalid_token.to_json
       }
     end
 
