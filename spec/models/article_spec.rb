@@ -12,12 +12,12 @@ RSpec.describe Article, type: :model do
 
   describe 'Validation' do
     it { is_expected.to validate_presence_of :title }
-    it { is_expected.to validate_presence_of :body }
     it { is_expected.to validate_inclusion_of(:backyard).in_array([false, true]) }
 
     context 'Normal article' do
       before { allow(subject).to receive(:is_backyard?).and_return(false) }
 
+      it { is_expected.to validate_presence_of :body }
       it { is_expected.to validate_presence_of :teaser }
       it { is_expected.to validate_presence_of :category }
       it { is_expected.to validate_inclusion_of(:premium).in_array([false, true]) }
@@ -29,10 +29,9 @@ RSpec.describe Article, type: :model do
 
     context 'Backyard article' do
       before { allow(subject).to receive(:is_backyard?).and_return(true) }
-       it { is_expected.to validate_presence_of :theme }
-       it { is_expected.to validate_presence_of :location }
+      it { is_expected.to validate_presence_of :theme }
+      it { is_expected.to validate_presence_of :location }
     end
-   
   end
 
   describe '#image' do
@@ -48,8 +47,8 @@ RSpec.describe Article, type: :model do
   end
 
   describe 'Relationship between article and ratings' do
-      before { allow(subject).to receive(:is_backyard?).and_return(false) }
-      it { is_expected.to have_many(:ratings) }
+    before { allow(subject).to receive(:is_backyard?).and_return(false) }
+    it { is_expected.to have_many(:ratings) }
   end
 
   describe 'Factory' do

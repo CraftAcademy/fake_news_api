@@ -2,8 +2,9 @@ class Article < ApplicationRecord
   validates_inclusion_of :backyard, in: [false, true]
   validates_presence_of :title
   belongs_to :user
-  
+
   scope :most_recent, -> { order(updated_at: :desc) }
+  scope :public_articles, -> { where(backyard: false) }
 
   # Normal articles
   validates :category, :premium, :body, :teaser, presence: true, unless: :is_backyard?
@@ -14,8 +15,8 @@ class Article < ApplicationRecord
 
   # Backyard articles
   validates :theme, :location, presence: true, if: :is_backyard?
-  
+
   def is_backyard?
-    self.backyard
+    backyard
   end
 end
