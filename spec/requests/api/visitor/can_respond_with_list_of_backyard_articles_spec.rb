@@ -30,19 +30,19 @@ RSpec.describe 'GET /api/backyards', type: :request do
     expect(response_json['backyard_articles'].first['title']).to eq 'My cat is really spying on me'
   end
 
-  it 'is expected to return articles with a title' do
+  it 'is expected to return articles with a theme' do
     expect(response_json['backyard_articles'].first['theme']).to eq 'Haunted animals'
   end
 
-  it 'is expected to return articles with a title' do
-    expect(response_json['backyard_articles'].first['date']).to eq Time.zone.now.updated_at.strftime('%F, %H:%M')
+  it 'is expected to return articles with a date' do
+    expect(response_json['backyard_articles'].first['date']).to eq Time.zone.now.strftime('%F, %H:%M')
   end
 
-  it 'is expected to return articles with a title' do
-    expect(response_json['backyard_articles'].first['written_by']).to eq 'Bob Kramer'
+  it 'is expected to return articles with a written_by' do
+    expect(response_json['backyard_articles'].first['written_by']).to eq 'Mr. Fake'
   end
 
-  it 'is expected to return articles with a title' do
+  it 'is expected to return articles with a location' do
     expect(response_json['backyard_articles'].first['location']).to eq 'Sweden'
   end
 end
