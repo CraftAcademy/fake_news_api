@@ -32,9 +32,13 @@ class Api::ArticlesController < ApplicationController
 
   def update
     article = Article.find(params[:id])
-    if params[:published]
+    if current_user&.editor? 
+      if params[:published] 
       article['published'] = true
       render json: { message: 'Your article has been successfully updated!' }, status: 200
+      end 
+    else 
+  
     else
       updated_article = article.update(article_params)
       if updated_article
@@ -43,6 +47,7 @@ class Api::ArticlesController < ApplicationController
         render json: { message: 'Article has not been updated' }, status: 422
       end
     end
+  end
   end
 
   private
