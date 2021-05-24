@@ -1,4 +1,6 @@
 class Api::BackyardsController < ApplicationController
+  before_action :authenticate_user!, only: %i[create]
+
   def index
     country = get_country
     backyard_articles = Article.where(location: country).most_recent

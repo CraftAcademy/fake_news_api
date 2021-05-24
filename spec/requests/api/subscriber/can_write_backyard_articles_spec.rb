@@ -48,7 +48,7 @@ RSpec.describe 'POST /api/backyards', type: :request do
       expect(response).to have_http_status 401
     end
 
-    it 'is expected that journalist cant create article' do
+    it 'is expected that visitor cant create article' do
       expect(response_json['errors'].first).to eq 'You need to sign in or sign up before continuing.'
     end
   end
