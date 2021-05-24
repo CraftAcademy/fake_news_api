@@ -12,8 +12,12 @@ class Api::BackyardsController < ApplicationController
   end
 
   def create
-    backyard_article = build_backyard_article 
-    
+    backyard_article = build_backyard_article
+    if backyard_article.persisted?
+      render json: { message: 'Your backyard article has been successfully created!' }, status: 201
+    else
+      render json: { error_message: 'Please fill in all required fields' }, status: 422
+    end
   end
 
   private
@@ -31,7 +35,6 @@ class Api::BackyardsController < ApplicationController
     backyard_article = current_user.articles.build(article_params)
     backyard_article['backyard'] = true
     backyard_article.save
- 
+    backyard_article
   end
-  
 end
