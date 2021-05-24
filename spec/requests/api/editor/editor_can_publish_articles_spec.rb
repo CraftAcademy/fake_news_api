@@ -4,7 +4,6 @@ RSpec.describe 'PUT api/articles', type: :request do
   let!(:article) { create(:article, title: 'Old Article', user_id: journalist.id, published: false) }
   let!(:auth_headers) { editor.create_new_auth_token }
 
-
   describe 'successfully' do
     before do
       put "/api/articles/#{article.id}",
