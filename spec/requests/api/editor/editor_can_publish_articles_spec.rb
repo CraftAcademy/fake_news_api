@@ -8,15 +8,8 @@ RSpec.describe 'PUT api/articles', type: :request do
   describe 'successfully' do
     before do
       put "/api/articles/#{article.id}",
-          params: {
-            article: {
-              title: 'Obnoxious Title',
-              teaser: 'Some damn teaser',
-              body: ["Husband found dead allegedly because he wasn't testing first"],
-              category: 'Hollywood',
-              premium: true,
+          params: { 
               published: true
-            }
           },
           headers: auth_headers
     end
@@ -26,7 +19,7 @@ RSpec.describe 'PUT api/articles', type: :request do
     end
 
     it 'is expected to return a success message' do
-      expect(response_json['message']).to eq 'Your article has been successfully been updated!'
+      expect(response_json['message']).to eq 'Your article has been successfully updated!'
     end
   end
 end
