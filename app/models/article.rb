@@ -7,7 +7,7 @@ class Article < ApplicationRecord
   scope :public_articles, -> { where(backyard: false) }
 
   # Normal articles
-  validates :category,  :teaser, presence: true, unless: :is_backyard?
+  validates :category,:teaser, presence: true, unless: :is_backyard?
   validates :premium, inclusion: { in: [false, true] }, unless: :is_backyard?
   validates :category, inclusion: { in: %w[Science Aliens Covid Illuminati Politics Hollywood] }, unless: :is_backyard?
   has_one_attached :image
