@@ -6,7 +6,7 @@ RSpec.describe 'PUT api/articles', type: :request do
   let!(:auth_headers_journalist) { journalist.create_new_auth_token }
 
 
-  describe 'successfully' do
+  describe 'successfully as an editor' do
     before do
       put "/api/articles/#{article.id}",
           params: { 
@@ -22,8 +22,14 @@ RSpec.describe 'PUT api/articles', type: :request do
     it 'is expected to return a success message' do
       expect(response_json['message']).to eq 'Your article has been successfully updated!'
     end
+
+    it "is expected to set published status to true" do
+      expect(article.reload.published?).to eq true
+      
+    end
+    
   end
-  describe 'unsuccessfully' do
+  describe 'unsuccessfully as a journalist' do
     before do
       put "/api/articles/#{article.id}",
           params: { 
@@ -32,8 +38,8 @@ RSpec.describe 'PUT api/articles', type: :request do
           headers: auth_headers_journalist
     end
 
-    it 'is expected to return a 401 status' do
-      expect(response).to have_http_status 401
+    it 'is expected to return a 403 status' do
+      expect(response).to have_http_status 403
     end
 
     it 'is expected to return a error message' do
