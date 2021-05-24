@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :article do
     title { 'First title' }
     teaser { 'some text' }
-    body { "Husband found dead allegedly because he wasn't testing first" }
+    body { ["Husband found dead allegedly because he wasn't testing first", 'Wife devastated.' ] }
     association :user
     backyard { false }
     category { 'Science' }
@@ -15,7 +15,7 @@ FactoryBot.define do
   
   factory :backyard_article, class: Article do
     title { 'My cat is really spying on me' }
-    body { 'My cat was flying yesterday' }
+    body { ['My cat was flying yesterday', 'Really a surreal experience' ] }
     theme { 'Haunted animals' }
     association :user
     backyard { true }

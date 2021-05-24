@@ -8,12 +8,15 @@ RSpec.describe Article, type: :model do
     it { is_expected.to have_db_column(:theme).of_type(:string) }
     it { is_expected.to have_db_column(:backyard).of_type(:boolean) }
     it { is_expected.to have_db_column(:premium).of_type(:boolean) }
+    it 'is expected to have a body of text in an array' do
+      expect(subject[:body]).kind_of?(Array)
+    end
   end
 
   describe 'Validation' do
     it { is_expected.to validate_presence_of :title }
-    it { is_expected.to validate_inclusion_of(:backyard).in_array([false, true]) }
     it { is_expected.to validate_presence_of :body }
+    it { is_expected.to validate_inclusion_of(:backyard).in_array([false, true]) }
 
     context 'Normal article' do
       before { allow(subject).to receive(:is_backyard?).and_return(false) }
