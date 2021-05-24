@@ -25,10 +25,6 @@ RSpec.describe 'GET /api/backyards/:id', type: :request do
     it 'is expected to show category' do
       expect(response_json['backyard_article']['theme']).to eq 'Haunted animals'
     end
-
-    it 'is expected to have country of the backyard article' do
-      expect(response_json['backyard_article']['location']).to eq 'Sweden'
-    end
   end
 
   describe 'unsuccessfully' do

@@ -1,5 +1,5 @@
 class BackyardsShowSerializerSerializer < ActiveModel::Serializer
-  attributes :id, :title, :body, :theme, :date, :written_by, :location
+  attributes :id, :title, :body, :theme, :date, :written_by
 
   def date
     object.updated_at.strftime('%F, %H:%M')
