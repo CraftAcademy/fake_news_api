@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_24_123047) do
+ActiveRecord::Schema.define(version: 2021_05_24_194436) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 2021_05_24_123047) do
     t.string "location"
     t.string "theme"
     t.boolean "backyard", default: false
+    t.boolean "published", default: false
     t.index ["user_id"], name: "index_articles_on_user_id"
   end
 
