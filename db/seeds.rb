@@ -70,6 +70,6 @@ end
 
 puts 'Creating backyard articles...'
 (0...titles.count).each do |i|
-  backyard_article = Article.create(title: titles[i], backyard: true, location: ['Sweden','Denmark'].sample,
+  backyard_article = Article.create(title: titles[i], body: body[i], backyard: true, location: ['Sweden','Denmark'].sample,
                                     theme: themes[i], user_id: subscriber.id)
 end

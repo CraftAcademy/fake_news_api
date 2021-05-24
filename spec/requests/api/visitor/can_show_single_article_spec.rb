@@ -30,12 +30,12 @@ RSpec.describe 'GET /api/articles/:id' do
       expect(response_json['article']['title']).to eq 'First title'
     end
 
-    it 'is expected to return title' do
+    it 'is expected to return teaser' do
       expect(response_json['article']['teaser']).to eq 'some text'
     end
 
     it 'is expected to return body' do
-      expect(response_json['article']['body']).to eq "Husband found dead allegedly because he wasn't testing first"
+      expect(response_json['article']['body'].first).to eq "Husband found dead allegedly because he wasn't testing first"
     end
 
     it 'is expected to return date' do

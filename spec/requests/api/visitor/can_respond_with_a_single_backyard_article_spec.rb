@@ -15,7 +15,7 @@ RSpec.describe 'GET /api/backyards/:id', type: :request do
     end
 
     it 'is expected to have a body' do
-      expect(response_json['backyard_article']['body']).to eq 'My cat was flying yesterday'
+      expect(response_json['backyard_article']['body'].first).to eq 'My cat was flying yesterday'
     end
 
     it 'is expected to include written by Mr. fake' do
