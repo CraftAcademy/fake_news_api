@@ -11,10 +11,27 @@ class Api::BackyardsController < ApplicationController
     render json: backyard_article, serializer: BackyardsShowSerializerSerializer, root: :backyard_article
   end
 
+  def create
+    backyard_article = build_backyard_article 
+    
+  end
+
   private
 
   def get_country
     country_response = Geocoder.search([params[:lat], params[:lon]])
     country_response.first.country
   end
+
+  def article_params
+    params[:backyardArticle].permit(:title, :theme, :location, body: [])
+  end
+
+  def build_backyard_article
+    backyard_article = current_user.articles.build(article_params)
+    backyard_article['backyard'] = true
+    backyard_article.save
+ 
+  end
+  
 end

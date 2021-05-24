@@ -6,6 +6,6 @@ Rails.application.routes.draw do
   namespace :api do
     resources :ratings, only: [:create]
     resources :articles, only: [:index, :show, :create, :update]
-    resources :backyards, only: [:index, :show]
+    resources :backyards, only: [:index, :show, :create]
   end
 end

@@ -6,7 +6,7 @@ RSpec.describe 'POST /api/backyards', type: :request do
     before do
       post '/api/backyards',
            params: {
-             article: {
+             backyardArticle: {
                title: 'I am from the future!',
                theme: 'Buy Crypto',
                body: ['Crypto will rule the world', 'Get it while you can!'],
@@ -34,7 +34,7 @@ RSpec.describe 'POST /api/backyards', type: :request do
     before do
       post '/api/backyards',
            params: {
-             article: {
+             backyardArticle: {
                title: 'Obnoxious Title',
                teaser: 'Some damn teaser',
                body: ["Husband found dead allegedly because he wasn't testing first"],
@@ -57,7 +57,7 @@ RSpec.describe 'POST /api/backyards', type: :request do
     before do
       post '/api/backyards',
            params: {
-             article: {
+             backyardArticle: {
                title: '',
                teaser: 'Some damn teaser',
                body: ["Husband found dead allegedly because he wasn't testing first"],
