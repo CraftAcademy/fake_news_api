@@ -32,14 +32,21 @@ class Api::ArticlesController < ApplicationController
 
   def update
     article = Article.find(params[:id])
-    updated_article = article.update(article_params)
-    
-    binding.pry
-    
-    if updated_article
-      render json: { message: 'Your article has been successfully updated!' }, status: 200
+    if params[:published]
+      if current_user&.editor?
+        article.update(published: true)
+        render json: { message: 'Your article has been successfully updated!' }, status: 200
+      else
+        render json: { error_message: 'You are not authorized to publish an article!' }, status: 403
+      end
+
     else
-      render json: { message: 'Article has not been updated' }, status: 422
+      updated_article = article.update(article_params)
+      if updated_article
+        render json: { message: 'Your article has been successfully updated!' }, status: 200
+      else
+        render json: { message: 'Article has not been updated' }, status: 422
+      end
     end
   end
 

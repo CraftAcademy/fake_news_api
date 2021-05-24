@@ -8,6 +8,7 @@ RSpec.describe Article, type: :model do
     it { is_expected.to have_db_column(:theme).of_type(:string) }
     it { is_expected.to have_db_column(:backyard).of_type(:boolean) }
     it { is_expected.to have_db_column(:premium).of_type(:boolean) }
+    it { is_expected.to have_db_column(:published).of_type(:boolean) }
     it 'is expected to have a body of text in an array' do
       expect(subject[:body]).kind_of?(Array)
     end
@@ -28,6 +29,7 @@ RSpec.describe Article, type: :model do
         is_expected.to validate_inclusion_of(:category)
           .in_array(%w[Science Aliens Covid Illuminati Politics Hollywood])
       }
+      it { is_expected.to validate_inclusion_of(:published).in_array([false, true])}
     end
 
     context 'Backyard article' do
