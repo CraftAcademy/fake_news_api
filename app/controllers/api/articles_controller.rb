@@ -18,7 +18,11 @@ class Api::ArticlesController < ApplicationController
 
   def show
     article = Article.find(params[:id])
-    render json: article, serializer: ArticlesShowSerializer
+    if article.published?
+      render json: article, serializer: ArticlesShowSerializer
+    else
+      render json: { error_message: 'This article does not exist' }, status: 404
+    end
   end
 
   def create

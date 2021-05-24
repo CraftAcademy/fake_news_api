@@ -88,7 +88,7 @@ RSpec.describe 'GET /api/articles/:id' do
     end
 
     it 'is expected to have error message' do
-      expect(response_json['error_message']).to eq "Couldn't find Article with 'id'=123"
+      expect(response_json['error_message']).to eq "This article does not exist"
     end
   end
 end
