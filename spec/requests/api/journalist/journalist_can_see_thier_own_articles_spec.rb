@@ -22,6 +22,7 @@ RSpec.describe 'GET /api/articles', type: :request do
       expect(response_json['articles'].first['title']).to eq 'Second Article'
     end
   end
+  
   describe 'unsuccessfully because journalist does not have any article' do
     let!(:article3) { create(:article, title: 'Third Article') }
     let!(:article4) { create(:article, title: 'Fourth Article') }

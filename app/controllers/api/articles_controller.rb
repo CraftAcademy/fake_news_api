@@ -19,8 +19,7 @@ class Api::ArticlesController < ApplicationController
 
   def show
     article = Article.find(params[:id])
-
-    if params[:source] == 'admin-system'
+    if request.headers[:source] == 'admin-system'
       if article_evaluation(article)
         render json: article, serializer: ArticlesShowSerializer  
       else
@@ -75,8 +74,7 @@ class Api::ArticlesController < ApplicationController
   end
 
   def article_evaluation(article)
-    (current_user&.journalist? && article.user_id == current_user.index) || current_user&.editor?
-      
+    (current_user&.journalist? && article.user_id == current_user.id) || current_user&.editor?
   end
 
   def role_authentication
