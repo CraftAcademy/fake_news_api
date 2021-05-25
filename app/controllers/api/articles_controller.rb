@@ -57,7 +57,7 @@ class Api::ArticlesController < ApplicationController
   end
 
   def article_params
-    params[:article].permit(:title, :teaser, :category, :premium, body: [])
+    params[:article].permit(:title, :teaser, :category, :premium, :body)
   end
 
   def role_authenticator
