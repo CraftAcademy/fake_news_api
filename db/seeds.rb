@@ -54,6 +54,10 @@ puts 'Creating subscriber...'
 subscriber = User.create(email: 'subscriber@gmail.com', password: 'password', password_confirmation: 'password',
                          first_name: 'Bob', last_name: 'Kramer', role: 2)
 
+puts 'Creating editor....'
+editor = User.create(email: 'editor@gmail.com', password: 'password', password_confirmation: 'password',
+                     first_name: 'Sam', last_name: 'Kramer', role: 10)
+
 puts 'Creating articles...'
 (0...titles.count).each do |i|
   article = Article.create(title: titles[i], teaser: teasers[i], body: body[i],
