@@ -1,6 +1,7 @@
 class Api::ArticlesController < ApplicationController
   before_action :authenticate_user!, only: %i[create]
-  before_action :role_authenticator, only: %i[create]
+  before_action :role_authentication, only: %i[create]
+
 
   def index
     articles = Article.all.public_articles.most_recent
@@ -18,10 +19,19 @@ class Api::ArticlesController < ApplicationController
 
   def show
     article = Article.find(params[:id])
-    if article.published?
-      render json: article, serializer: ArticlesShowSerializer
+
+    if params[:source] == 'admin-system'
+      if article_evaluation(article)
+        render json: article, serializer: ArticlesShowSerializer  
+      else
+        render json: { error_message: 'You are not authorized to see this article' }, status: 403
+      end  
     else
+      if article.published?
+      render json: article, serializer: ArticlesShowSerializer
+      else
       render json: { error_message: 'This article does not exist' }, status: 404
+      end
     end
   end
 
@@ -64,8 +74,13 @@ class Api::ArticlesController < ApplicationController
     params[:article].permit(:title, :teaser, :category, :premium, body: [])
   end
 
-  def role_authenticator
-    return if current_user.journalist?
+  def article_evaluation(article)
+    (current_user&.journalist? && article.user_id == current_user.index) || current_user&.editor?
+      
+  end
+
+  def role_authentication
+    return unless current_user.subscriber?
 
     render json: { error_message: 'You are not authorized to create an article' }, status: 403
   end
