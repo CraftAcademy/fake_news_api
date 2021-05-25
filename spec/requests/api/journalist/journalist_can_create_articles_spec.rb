@@ -12,7 +12,7 @@ RSpec.describe 'POST /api/articles', type: :request do
              article: {
                title: 'Obnoxious Title',
                teaser: 'Some damn teaser',
-               body: ["Husband found dead allegedly because he wasn't testing first"],
+               body: "Husband found dead allegedly because he wasn't testing first",
                category: 'Hollywood',
                image: image,
                premium: true
@@ -49,7 +49,7 @@ RSpec.describe 'POST /api/articles', type: :request do
              article: {
                title: 'Obnoxious Title',
                teaser: 'Some damn teaser',
-               body: ["Husband found dead allegedly because he wasn't testing first"],
+               body: "Husband found dead allegedly because he wasn't testing first",
                category: 'Hollywood',
                premium: true
              }
@@ -78,7 +78,7 @@ RSpec.describe 'POST /api/articles', type: :request do
              article: {
                title: 'Obnoxious Title',
                teaser: 'Some damn teaser',
-               body: ["Husband found dead allegedly because he wasn't testing first"],
+               body: "Husband found dead allegedly because he wasn't testing first",
                category: 'Hollywood',
                premium: true
              }
@@ -102,7 +102,7 @@ RSpec.describe 'POST /api/articles', type: :request do
              article: {
                title: '',
                teaser: 'Some damn teaser',
-               body: ["Husband found dead allegedly because he wasn't testing first"],
+               body: "Husband found dead allegedly because he wasn't testing first",
                category: 'Hollywood',
                premium: true
              }

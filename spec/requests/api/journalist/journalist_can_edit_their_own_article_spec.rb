@@ -11,7 +11,7 @@ RSpec.describe 'PUT /api/articles/:id', type: :request do
             article: {
               title: 'New Article',
               teaser: 'Some damn teaser',
-              body: ["Husband found dead allegedly because he wasn't testing first or was he?!?!"],
+              body: "Husband found dead allegedly because he wasn't testing first or was he?!?!",
               category: 'Hollywood'
             }
           },
@@ -39,7 +39,7 @@ RSpec.describe 'PUT /api/articles/:id', type: :request do
     end
 
     it 'is expected to have new body' do
-      expect(updated_article['body'].first).to eq 'Husband found dead allegedly because he wasn\'t testing first or was he?!?!'
+      expect(updated_article['body']).to eq 'Husband found dead allegedly because he wasn\'t testing first or was he?!?!'
     end
 
     it 'is expected to have new category' do
@@ -54,7 +54,7 @@ RSpec.describe 'PUT /api/articles/:id', type: :request do
             article: {
               title: 'New Article',
               teaser: 'Some damn teaser',
-              body: ["Husband found dead allegedly because he wasn't testing first or was he?!?!"],
+              body: "Husband found dead allegedly because he wasn't testing first or was he?!?!",
               category: 'Hollywood'
             }
           },
