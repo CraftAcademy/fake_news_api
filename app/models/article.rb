@@ -4,7 +4,7 @@ class Article < ApplicationRecord
   belongs_to :user
 
   scope :most_recent, -> { order(updated_at: :desc) }
-  scope :public_articles, -> { where(backyard: false) }
+  scope :public_articles, -> { where(backyard: false, published: true) }
 
   # Normal articles
   validates :category,:teaser, presence: true, unless: :is_backyard?

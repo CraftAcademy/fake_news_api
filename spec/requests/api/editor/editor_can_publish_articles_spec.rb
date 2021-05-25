@@ -5,7 +5,6 @@ RSpec.describe 'PUT api/articles', type: :request do
   let!(:auth_headers) { editor.create_new_auth_token }
   let!(:auth_headers_journalist) { journalist.create_new_auth_token }
 
-
   describe 'successfully as an editor' do
     before do
       put "/api/articles/#{article.id}",
@@ -25,10 +24,9 @@ RSpec.describe 'PUT api/articles', type: :request do
 
     it "is expected to set published status to true" do
       expect(article.reload.published?).to eq true
-      
     end
-    
   end
+
   describe 'unsuccessfully as a journalist' do
     before do
       put "/api/articles/#{article.id}",

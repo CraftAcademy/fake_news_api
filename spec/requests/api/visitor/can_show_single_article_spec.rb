@@ -4,6 +4,7 @@ RSpec.describe 'GET /api/articles/:id' do
   let!(:subscriber2) { create(:user, role: 'subscriber') }
   let(:auth_headers2) { subscriber2.create_new_auth_token }
   let!(:article) { create(:article) }
+  let!(:unpublished_article) { create(:article, published: false) }
 
   describe 'successfully' do
     before do
@@ -74,6 +75,20 @@ RSpec.describe 'GET /api/articles/:id' do
 
     it 'is expected to have error message' do
       expect(response_json['error_message']).to eq "Couldn't find Article with 'id'=123"
+    end
+  end
+
+  describe 'unsuccessfully if the article is unpublished' do
+    before do
+      get "/api/articles/#{unpublished_article.id}"
+    end
+
+    it 'is expected to response with status 404' do
+      expect(response).to have_http_status 404
+    end
+
+    it 'is expected to have error message' do
+      expect(response_json['error_message']).to eq "This article does not exist"
     end
   end
 end
