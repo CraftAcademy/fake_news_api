@@ -22,7 +22,7 @@ RSpec.describe 'PUT api/articles', type: :request do
       expect(response_json['message']).to eq 'Your article has been successfully updated!'
     end
 
-    it "is expected to set published status to true" do
+    it 'is expected to set published status to true' do
       expect(article.reload.published?).to eq true
     end
   end
