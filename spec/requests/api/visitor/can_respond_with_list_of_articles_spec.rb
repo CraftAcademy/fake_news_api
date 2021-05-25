@@ -3,6 +3,8 @@ RSpec.describe 'GET /api/articles', type: :request do
     let!(:article1) { create(:article, title: 'Second Article', created_at: Time.zone.now - 100_000) }
     let!(:article2) { create(:article, title: 'First Article', created_at: Time.zone.now - 200_000) }
     let!(:article3) { create(:article, title: 'Third Article') }
+    let!(:unpublished_articles) { 2.times { create(:article, published: false) } }
+
     before do
       get '/api/articles'
     end
@@ -11,7 +13,7 @@ RSpec.describe 'GET /api/articles', type: :request do
       expect(response).to have_http_status 200
     end
 
-    it 'is expected to have lenght of 3 articles' do
+    it 'is expected to only respond with the 3 published articles' do
       expect(response_json['articles'].count).to eq 3
     end
 

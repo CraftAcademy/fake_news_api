@@ -61,7 +61,7 @@ editor = User.create(email: 'editor@gmail.com', password: 'password', password_c
 puts 'Creating articles...'
 (0...titles.count).each do |i|
   article = Article.create(title: titles[i], teaser: teasers[i], body: body[i],
-                           category: categories[rand(categories.count - 1)], user_id: journalist.id, premium: [true, false].sample)
+                           category: categories[rand(categories.count - 1)], user_id: journalist.id, premium: [true, false].sample, published: true)
   Rating.create(user_id: journalist.id, article_id: article.id, rating: 3)
 end
 
