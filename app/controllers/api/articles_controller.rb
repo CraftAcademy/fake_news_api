@@ -1,13 +1,13 @@
 class Api::ArticlesController < ApplicationController
   before_action :authenticate_user!, only: %i[create]
   before_action :admin_authenticator, only: %i[create]
+  before_action :editor_authenticator, only: %i[destroy]
 
   def index
     if current_user&.editor?
       articles = Article.where(backyard: false).most_recent
       render json: articles, each_serializer: ArticlesIndexSerializer and return
-    elsif
-      current_user&.journalist?
+    elsif current_user&.journalist?
       articles_by_journalist = Article.where(user_id: current_user.id, backyard: false).most_recent
       render json: articles_by_journalist, each_serializer: ArticlesIndexSerializer and return
     end
@@ -22,7 +22,13 @@ class Api::ArticlesController < ApplicationController
 
   def show
     article = Article.find(params[:id])
-    if article.published?
+    if request.headers[:source] == 'admin-system'
+      if article_evaluation(article)
+        render json: article, serializer: ArticlesShowSerializer
+      else
+        render json: { error_message: 'You are not authorized to see this article' }, status: 403
+      end
+    elsif article.published?
       render json: article, serializer: ArticlesShowSerializer
     else
       render json: { error_message: 'This article does not exist' }, status: 404
@@ -58,6 +64,12 @@ class Api::ArticlesController < ApplicationController
     end
   end
 
+  def destroy
+    article = Article.find(params[:id])
+    article.destroy
+    render json: { message: 'The article was successfully deleted' }
+  end
+
   private
 
   def attach_image(article)
@@ -68,9 +80,19 @@ class Api::ArticlesController < ApplicationController
     params[:article].permit(:title, :teaser, :category, :premium, :body)
   end
 
+  def article_evaluation(article)
+    (current_user&.journalist? && article.user_id == current_user.id) || current_user&.editor?
+  end
+
   def admin_authenticator
     return if current_user.journalist?
 
     render json: { error_message: 'You are not authorized to create an article' }, status: 403
+  end
+
+  def editor_authenticator
+    return if current_user.editor?
+
+    render json: { error_message: 'You are not authorized to delete this article' }, status: 403
   end
 end
