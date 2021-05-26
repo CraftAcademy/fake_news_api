@@ -46,21 +46,14 @@ class Api::ArticlesController < ApplicationController
 
   def update
     article = Article.find(params[:id])
-    if params[:published]
-      if current_user&.editor?
-        article.update(published: true)
-        render json: { message: 'Your article has been successfully updated!' }, status: 200
+    if article_evaluation(article)
+      if params[:published]
+        publish_article(article)
       else
-        render json: { error_message: 'You are not authorized to publish an article!' }, status: 403
+        update_article(article)
       end
-
     else
-      updated_article = article.update(article_params)
-      if updated_article
-        render json: { message: 'Your article has been successfully updated!' }, status: 200
-      else
-        render json: { message: 'Article has not been updated' }, status: 422
-      end
+      render json: { error_message: 'You are not authorized to edit this article' }, status: 403
     end
   end
 
@@ -94,5 +87,23 @@ class Api::ArticlesController < ApplicationController
     return if current_user.editor?
 
     render json: { error_message: 'You are not authorized to delete this article' }, status: 403
+  end
+
+  def publish_article(article)
+    if current_user&.editor?
+      article.update(published: true)
+      render json: { message: 'Your article has been successfully updated!' }, status: 200
+    else
+      render json: { error_message: 'You are not authorized to publish an article!' }, status: 403
+    end
+  end
+
+  def update_article(article)
+    updated_article = article.update(article_params)
+    if updated_article
+      render json: { message: 'Your article has been successfully updated!' }, status: 200
+    else
+      render json: { message: 'Article has not been updated' }, status: 422
+    end
   end
 end

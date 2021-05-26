@@ -4,7 +4,6 @@ RSpec.describe 'GET /api/articles', type: :request do
   let!(:journalist2) { create(:user, role: 'journalist') }
   let(:auth_headers) { editor.create_new_auth_token }
 
-
   describe 'successfully' do
     let!(:article1) { create(:article, title: 'First Article', user_id: journalist.id) }
     let!(:article2) { create(:article, title: 'Second Article', user_id: journalist.id) }
@@ -26,13 +25,11 @@ RSpec.describe 'GET /api/articles', type: :request do
       expect(response_json['articles'].first['title']).to eq 'Third Article'
     end
 
-    it "is expected to have a published status of true" do
+    it 'is expected to have a published status of true' do
       expect(response_json['articles'].first['published']).to eq true
-      
     end
-    
   end
-  
+
   describe 'unsuccessfully as there is no articles' do
     before do
       get '/api/articles',
