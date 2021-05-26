@@ -1,16 +1,16 @@
 RSpec.describe 'GET /api/statistics', type: :request do
-  let!(:journalist) { 1.times { create(:user, role: 'journalist') } }
+  let!(:editor) { create(:user, role: 'editor') }
+  let!(:editor_headers) { editor.create_new_auth_token }
+  let!(:journalist)  { create(:user, role: 'journalist') } 
+  let!(:journalist_headers) { journalist.create_new_auth_token }
   let!(:subscribers) { 2.times { create(:user, role: 'subscriber') } }
   let!(:published_articles) { 3.times { create(:article) } }
-  let!(:unpublished_articles) { 1.times { create(:article, published: false) } }
+  let!(:unpublished_articles) { create(:article, published: false) }
   let!(:backyard_articles) { 3.times { create(:backyard_article) } }
 
-  describer 'Successfully as an editor' do
-    let(:editor) { create(:user, role: 'editor') }
-    let(:auth_headers) { editor.create_new_auth_token }
-
+  describe 'Successfully as an editor' do
     before do
-      get '/api/statistics', headers: auth_headers
+      get '/api/statistics', headers: editor_headers
     end
   
     it 'is expected to return a 200 status' do
@@ -42,9 +42,7 @@ RSpec.describe 'GET /api/statistics', type: :request do
     end
   end
 
-  describer 'Unsuccessfully as a journalist' do
-    let(:journalist_headers) { journalist.create_new_auth_token }
-
+  describe 'Unsuccessfully as a journalist' do
     before do
       get '/api/statistics', headers: journalist_headers
     end
@@ -54,7 +52,7 @@ RSpec.describe 'GET /api/statistics', type: :request do
     end
 
     it 'is expected to return an error message' do
-      expect(response_json['error_message'].to eq 'You are not authorized to view this information'
+      expect(response_json['error_message']).to eq 'You are not authorized to view this information'
     end
   end
 end
