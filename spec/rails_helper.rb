@@ -7,6 +7,7 @@ require 'stripe_mock'
 require 'webmock/rspec'
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
+require 'rest-client'
 
 Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
 

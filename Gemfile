@@ -13,6 +13,7 @@ gem 'faker', git: 'https://github.com/faker-ruby/faker.git', branch: 'master'
 gem 'aws-sdk-s3', require: false
 gem 'stripe-rails'
 gem 'geocoder'
+gem 'rest-client', '~> 2.1'
 
 group :development, :test do
   gem 'stripe-ruby-mock', '~> 3.1.0.rc2', require: 'stripe_mock'
