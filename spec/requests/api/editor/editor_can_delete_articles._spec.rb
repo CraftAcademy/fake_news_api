@@ -5,7 +5,7 @@ RSpec.describe 'DELETE /api/articles/:id' do
 
   describe 'Successfully' do
     before do
-      delete "/api/articles/#{article.id}", header: editor_headers
+      delete "/api/articles/#{article.id}", headers: editor_headers
     end
 
     it 'is expected to return status code 200' do
@@ -17,13 +17,13 @@ RSpec.describe 'DELETE /api/articles/:id' do
     end
 
     it 'is expected to have deleted article' do
-      expect(article.reload).not_to exist
+      expect(Article.all.count).to eq 0
     end
   end
 
   describe 'Unsuccessfully because article does not exist' do
     before do
-      delete "/api/articles/1337", header: editor_headers
+      delete '/api/articles/1337', headers: editor_headers
     end
 
     it 'is expected to return status code 404' do
@@ -31,16 +31,16 @@ RSpec.describe 'DELETE /api/articles/:id' do
     end
 
     it 'is expected to return an error message' do
-      expect(response_json['error_message']).to eq 'Article was not found'
+      expect(response_json['error_message']).to eq "Couldn't find Article with 'id'=1337"
     end
   end
-  
+
   describe 'Unsuccessfully as a journalist' do
     let(:journalist) { create(:user, role: 'journalist') }
     let(:journalist_headers) { journalist.create_new_auth_token }
-    
+
     before do
-      delete "/api/articles/#{article.id}", header: journalist_headers
+      delete "/api/articles/#{article.id}", headers: journalist_headers
     end
 
     it 'is expected to return status code 403' do
@@ -50,5 +50,5 @@ RSpec.describe 'DELETE /api/articles/:id' do
     it 'is expected to return an error message' do
       expect(response_json['error_message']).to eq 'You are not authorized to delete this article'
     end
-  end 
+  end
 end
