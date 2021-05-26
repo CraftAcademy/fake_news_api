@@ -7,5 +7,6 @@ Rails.application.routes.draw do
     resources :ratings, only: [:create]
     resources :articles, only: %i[index show create update destroy]
     resources :backyards, only: %i[index show create]
+    resources :statistics, only: [:index]
   end
 end
