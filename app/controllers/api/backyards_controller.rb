@@ -30,7 +30,7 @@ class Api::BackyardsController < ApplicationController
   end
 
   def article_params
-    params[:backyardArticle].permit(:title, :theme, :location, body: [])
+    params[:backyardArticle].permit(:title, :theme, :location, :body)
   end
 
   def build_backyard_article

@@ -1,18 +1,21 @@
 class Api::ArticlesController < ApplicationController
   before_action :authenticate_user!, only: %i[create]
-  before_action :role_authentication, only: %i[create]
-
+  before_action :admin_authenticator, only: %i[create]
 
   def index
-    articles = Article.all.public_articles.most_recent
-    if current_user&.journalist?
-      articles_by_journalist = Article.public_articles.where(user_id: current_user.id).most_recent
+    if current_user&.editor?
+      articles = Article.where(backyard: false).most_recent
+      render json: articles, each_serializer: ArticlesIndexSerializer and return
+    elsif
+      current_user&.journalist?
+      articles_by_journalist = Article.where(user_id: current_user.id, backyard: false).most_recent
       render json: articles_by_journalist, each_serializer: ArticlesIndexSerializer and return
     end
     if params[:category]
       articles_by_category = Article.public_articles.where(category: params[:category])
       render json: articles_by_category, each_serializer: ArticlesIndexSerializer
     else
+      articles = Article.public_articles.most_recent
       render json: articles, each_serializer: ArticlesIndexSerializer
     end
   end
@@ -70,15 +73,15 @@ class Api::ArticlesController < ApplicationController
   end
 
   def article_params
-    params[:article].permit(:title, :teaser, :category, :premium, body: [])
+    params[:article].permit(:title, :teaser, :category, :premium, :body)
   end
 
   def article_evaluation(article)
     (current_user&.journalist? && article.user_id == current_user.id) || current_user&.editor?
   end
 
-  def role_authentication
-    return unless current_user.subscriber?
+  def admin_authenticator
+    return if current_user.journalist?
 
     render json: { error_message: 'You are not authorized to create an article' }, status: 403
   end

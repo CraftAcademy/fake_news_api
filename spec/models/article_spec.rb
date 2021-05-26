@@ -9,9 +9,6 @@ RSpec.describe Article, type: :model do
     it { is_expected.to have_db_column(:backyard).of_type(:boolean) }
     it { is_expected.to have_db_column(:premium).of_type(:boolean) }
     it { is_expected.to have_db_column(:published).of_type(:boolean) }
-    it 'is expected to have a body of text in an array' do
-      expect(subject[:body]).kind_of?(Array)
-    end
   end
 
   describe 'Validation' do

@@ -9,7 +9,7 @@ RSpec.describe 'POST /api/backyards', type: :request do
              backyardArticle: {
                title: 'I am from the future!',
                theme: 'Buy Crypto',
-               body: ['Crypto will rule the world', 'Get it while you can!'],
+               body: 'Crypto will rule the world',
                location: 'Sweden'
              }
            },
@@ -37,7 +37,7 @@ RSpec.describe 'POST /api/backyards', type: :request do
              backyardArticle: {
                title: 'Obnoxious Title',
                teaser: 'Some damn teaser',
-               body: ["Husband found dead allegedly because he wasn't testing first"],
+               body: "Husband found dead allegedly because he wasn't testing first",
                category: 'Hollywood',
                premium: true
              }
@@ -60,7 +60,7 @@ RSpec.describe 'POST /api/backyards', type: :request do
              backyardArticle: {
                title: '',
                teaser: 'Some damn teaser',
-               body: ["Husband found dead allegedly because he wasn't testing first"],
+               body: "Husband found dead allegedly because he wasn't testing first",
                category: 'Hollywood',
                premium: true
              }
