@@ -3,13 +3,19 @@ RSpec.describe 'GET /api/statistics', type: :request do
   let!(:editor_headers) { editor.create_new_auth_token }
   let!(:journalist)  { create(:user, role: 'journalist') } 
   let!(:journalist_headers) { journalist.create_new_auth_token }
-  let!(:subscribers) { 2.times { create(:user, role: 'subscriber') } }
-  let!(:published_articles) { 3.times { create(:article) } }
+  let!(:published_articles1) { create(:article, created_at: Time.zone.now()) }
+  let!(:published_articles2) { create(:article, created_at: Time.zone.now() - 100_000)  }
+  let!(:published_articles3) { create(:article, created_at: Time.zone.now() - 200_000)  }
   let!(:unpublished_articles) { create(:article, published: false) }
   let!(:backyard_articles) { 3.times { create(:backyard_article) } }
+  let!(:subscriptions_data) do
+    file_fixture('stripe_stats.json').read
+  end
 
   describe 'Successfully as an editor' do
     before do
+      stub_request(:get, 'https://api.stripe.com/v1/subscriptions')
+      .to_return(status: 200, body: subscriptions_data, headers: {})
       get '/api/statistics', headers: editor_headers
     end
   
@@ -38,7 +44,7 @@ RSpec.describe 'GET /api/statistics', type: :request do
     end
 
     it 'is expected to return the total number of subscribers' do
-      expect(response_json['statistics']['subscribers']['total']).to eq 2
+      expect(response_json['statistics']['subscribers']['total']).to eq 10
     end
   end
 

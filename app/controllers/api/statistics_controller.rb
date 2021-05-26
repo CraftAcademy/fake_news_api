@@ -3,15 +3,16 @@ class Api::StatisticsController < ApplicationController
 
   def index
     @statistics = {}
-    api_key = 'bearer sk_test_51IovvJL7WvJmM60HFPImrEIk25YfJ3ovv4YOLXN77R43J7ZmPth8fKKvi2qoneds5w50RAblSRPIlaIXo2PMFEhy00w7WvCun0'
     get_local_statistics
+    get_articles_timeline
     begin
-      response = RestClient.get('https://api.stripe.com/v1/subscriptions', headers: { Authorization: api_key })
+      headers = { Authorization: 'Bearer sk_test_51IovvJL7WvJmM60HFPImrEIk25YfJ3ovv4YOLXN77R43J7ZmPth8fKKvi2qoneds5w50RAblSRPIlaIXo2PMFEhy00w7WvCun0' }
+      response = RestClient.get('https://api.stripe.com/v1/subscriptions', headers)
       data = JSON.parse(response)
       stripe_data_extractor(data)
     rescue StandardError => e      
       stripe_error = JSON.parse(e.response)['error']['message']
-      render json: { statistics: @statistics, stripe_error: stripe_error }, status: e.response.code  and return
+      render json: { statistics: @statistics, stripe_error: stripe_error }, status: e.response.code and return
     end
     render json: { statistics: @statistics }
   end
@@ -35,13 +36,14 @@ class Api::StatisticsController < ApplicationController
   end
 
   def stripe_data_extractor(data)
-    amount_of_subscribers =
-      { total: 0,
+    amount_of_subscribers = { 
+        total: 0,
         yearly_subscription: 0,
         half_year_subscription: 0,
         monthly_subscription: 0 }
 
     total_income = {
+      total: 0,
       yearly_subscription: 0,
       half_year_subscription: 0,
       monthly_subscription: 0
@@ -62,7 +64,26 @@ class Api::StatisticsController < ApplicationController
         total_income[:monthly_subscription] = amount_of_subscribers[:monthly_subscription] * 130
       end
     end
+    total_income.each do |key, value|
+      total_income[:total] += value
+    end
+
     @statistics[:subscribers] = amount_of_subscribers
     @statistics[:total_income] = total_income
+  end
+
+  def get_articles_timeline
+    timeline = []
+    (0...7).each do |i|
+      date = (DateTime.now - i).strftime('%F')
+      timeline.push({ date: date, articles: 0 })
+
+      Article.where(backyard: false).each do |article|
+        if article[:created_at].strftime('%F') == date
+          timeline[i][:articles] += 1
+        end
+      end
+    end
+    @statistics[:articles_timeline] = timeline
   end
 end

@@ -25,6 +25,10 @@ RSpec.describe 'GET api/statistics', type: :request do
     it 'is expected to respond with total amount income from monthly subscribers' do
       expect(response_json['statistics']['total_income']['monthly_subscription']).to eq 650
     end
+
+    it 'is expected to respond with total amount income from all sources' do
+      expect(response_json['statistics']['total_income']['total']).to eq 1170
+    end
   end
 
   describe 'Unsuccessfully as a journalist' do
