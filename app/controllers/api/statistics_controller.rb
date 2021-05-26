@@ -2,19 +2,26 @@ class Api::StatisticsController < ApplicationController
   before_action :authenticate_editor
 
   def index
+    @statistics = {}
     api_key = 'bearer sk_test_51IovvJL7WvJmM60HFPImrEIk25YfJ3ovv4YOLXN77R43J7ZmPth8fKKvi2qoneds5w50RAblSRPIlaIXo2PMFEhy00w7WvCun0'
     response = RestClient.get('https://api.stripe.com/v1/subscriptions', headers: { Authorization: api_key })
+    data = JSON.parse(response)
 
-    binding.pry
+    stripe_data_extractor(data)
+    get_local_statistics()
 
-    @statistics = {}
-    set_statistics
     render json: { statistics: @statistics }
   end
 
   private
 
-  def set_statistics
+  def authenticate_editor
+    return if current_user.editor?
+
+    render json: { error_message: 'You are not authorized to view this information' }, status: 403
+  end
+
+  def get_local_statistics
     @statistics[:articles] = {
       total: Article.where(backyard: false).count,
       published: Article.where(published: true, backyard: false).count,
@@ -22,12 +29,27 @@ class Api::StatisticsController < ApplicationController
     }
     @statistics[:backyard_articles] = { total: Article.where(backyard: true).count }
     @statistics[:journalists] = { total: User.where(role: 5).count }
-    @statistics[:subscribers] = { total: User.where(role: 2).count }
   end
 
-  def authenticate_editor
-    return if current_user.editor?
+  def stripe_data_extractor(data)
+    amount_of_subscribers = 
+      { total: 0 ,
+       yearly_subscription: 0 ,
+       half_year_subscription: 0 ,
+       monthly_subscription: 0 }
 
-    render json: { error_message: 'You are not authorized to view this information' }, status: 403
+    data['data'].each do |subscription| 
+      amount_of_subscribers[:total] += 1
+      id = subscription['items']['data'].first['price']['id']
+      case id 
+      when 'yearly_subscription'
+        amount_of_subscribers[:yearly_subscription] += 1
+      when 'half_year_subscription'
+        amount_of_subscribers[:half_year_subscription] += 1
+      when 'monthly_subscription' 
+        amount_of_subscribers[:monthly_subscription] += 1
+      end
+    end
+    @statistics[:subscribers] = amount_of_subscribers
   end
 end

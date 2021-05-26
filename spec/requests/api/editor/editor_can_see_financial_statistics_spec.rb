@@ -16,8 +16,12 @@ RSpec.describe 'GET api/statistics', type: :request do
       expect(response).to have_http_status 200
     end
 
-    it 'is expected to respond with some data' do
-      expect(response_json).to eq 'something'
+    it 'is expected to respond with total amount of subscribers' do
+      expect(response_json['statistics']['subscribers']['total']).to eq 10
     end
+
+    # it 'is expected to respond with total amount of subscribers' do
+    #   expect(response_json['statistics']['subscribers']['total']).to eq 10
+    # end
   end
 end
