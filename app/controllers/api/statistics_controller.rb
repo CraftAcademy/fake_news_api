@@ -4,7 +4,9 @@ class Api::StatisticsController < ApplicationController
     set_statistics()
     render json: {statistics: @statistics}
   end
+
   private 
+  
   def set_statistics
     @statistics[:articles] = { 
       total: Article.where(backyard: false).count,
