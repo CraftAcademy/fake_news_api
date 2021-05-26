@@ -14,6 +14,7 @@ RSpec.describe 'GET /api/statistics', type: :request do
   end
 
   it 'is expected to return the total number of journalists' do
+    binding.pry
     expect(response_json['statistics']['journalists']['total']).to eq 12
   end
 
