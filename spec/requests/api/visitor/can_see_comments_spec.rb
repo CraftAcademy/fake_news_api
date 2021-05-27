@@ -30,4 +30,18 @@ RSpec.describe 'GET /api/articles/:id', type: :request do
       expect(response_json['article']['comments'].first['date']).to eq Time.zone.now().strftime('%F') 
     end
   end
+
+  describe 'Unsuccessfully with no comments' do
+    before do
+      get "/api/articles/#{article.id}"
+    end
+
+    it 'is expected to return a 200 status' do
+      expect(response).to have_http_status 200
+    end
+
+    it 'is expected to return a comments object with an empty array' do
+      expect(response_json['article']['comments']).to eq []
+    end
+  end
 end

@@ -6,9 +6,8 @@ titles = [
   'New Year 2020: 10 Moments This Decade That Made Us Say, "Wait, What?"',
   "Amateur Rocket-Maker Finally Launches Himself Off Earth - Now To Prove It's Flat",
   'The Covid-19 Vaccine Will Contain A Microchip',
-  'Canada SWAT team arrest pastor Artur Pawlowski, who’s been holding church services in defiance of the country’s strict COVID lockdown measures.',
+  'Canada SWAT team arrest pastor Artur Pawlowski.',
   'Moderna Chief Medical Officer Confirms mRNA Injection For COVID-19 Can Change Your Genetic Code.'
-
 ]
 teasers = [
   'Facebook has been criticized for failing to curb misinformation in English. But little attention has been paid to the scale of the problem in Arabic.',

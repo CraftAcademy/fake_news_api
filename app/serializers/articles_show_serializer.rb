@@ -35,9 +35,6 @@ class ArticlesShowSerializer < ActiveModel::Serializer
                       body: comment.body
                     })
     end
-    
-    binding.pry
-    
     comments.reverse
   end
 end

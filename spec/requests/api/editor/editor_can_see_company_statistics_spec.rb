@@ -3,9 +3,10 @@ RSpec.describe 'GET /api/statistics', type: :request do
   let!(:editor_headers) { editor.create_new_auth_token }
   let!(:journalist) { create(:user, role: 'journalist') }
   let!(:journalist_headers) { journalist.create_new_auth_token }
-  let!(:published_articles1) { create(:article, created_at: Time.zone.now) }
-  let!(:published_articles2) { create(:article, created_at: Time.zone.now - 100_000)  }
-  let!(:published_articles3) { create(:article, created_at: Time.zone.now - 200_000)  }
+  let!(:published_article1) { create(:article, created_at: Time.zone.now) }
+  let!(:published_article2) { create(:article, created_at: Time.zone.now - 100_000)  }
+  let!(:published_article3) { create(:article, created_at: Time.zone.now - 200_000)  }
+  let!(:comment) { 3.times { create(:comment, article_id: published_article3.id, user_id: journalist.id) } }
   let!(:unpublished_articles) { create(:article, published: false) }
   let!(:backyard_articles) { 3.times { create(:backyard_article) } }
   let!(:subscriptions_data) do
@@ -45,6 +46,10 @@ RSpec.describe 'GET /api/statistics', type: :request do
 
     it 'is expected to return the total number of subscribers' do
       expect(response_json['statistics']['subscribers']['total']).to eq 10
+    end
+
+    it 'is expected to return the total number of comments' do
+      expect(response_json['statistics']['comments']['total']).to eq 3
     end
   end
 

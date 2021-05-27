@@ -5,6 +5,7 @@ class Api::StatisticsController < ApplicationController
     @statistics = {}
     get_local_statistics
     get_articles_timeline
+    @statistics[:comments] = { total: Comment.all.count }
     begin
       headers = { Authorization: 'Bearer sk_test_51IovvJL7WvJmM60HFPImrEIk25YfJ3ovv4YOLXN77R43J7ZmPth8fKKvi2qoneds5w50RAblSRPIlaIXo2PMFEhy00w7WvCun0' }
       response = RestClient.get('https://api.stripe.com/v1/subscriptions', headers)

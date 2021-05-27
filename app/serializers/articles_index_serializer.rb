@@ -1,5 +1,5 @@
 class ArticlesIndexSerializer < ActiveModel::Serializer
-  attributes :id, :title, :teaser, :date, :category, :image, :rating, :author, :premium, :published
+  attributes :id, :title, :teaser, :date, :category, :image, :rating, :author, :premium, :published, :comments
 
   def date
     object.updated_at.strftime('%F, %H:%M')
@@ -22,5 +22,9 @@ class ArticlesIndexSerializer < ActiveModel::Serializer
       first_name: object.user.first_name,
       last_name: object.user.last_name
     }
+  end
+
+  def comments
+    object.comments.count
   end
 end
