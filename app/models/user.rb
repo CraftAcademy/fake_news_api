@@ -10,5 +10,6 @@ class User < ActiveRecord::Base
 
   has_many :articles
   has_many :ratings
+  has_many :comments
   validates_presence_of :role, :first_name, :last_name
 end

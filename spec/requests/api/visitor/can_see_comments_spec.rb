@@ -27,7 +27,7 @@ RSpec.describe 'GET /api/articles/:id', type: :request do
     end
 
     it 'is expected to return the comment\'s date of creation' do
-      expect(response_json['article']['comments'].first['body']).to eq Time.zone.now().strftime('%F') 
+      expect(response_json['article']['comments'].first['date']).to eq Time.zone.now().strftime('%F') 
     end
   end
 end

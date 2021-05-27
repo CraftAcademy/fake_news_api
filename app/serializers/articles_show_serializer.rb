@@ -1,5 +1,6 @@
 class ArticlesShowSerializer < ActiveModel::Serializer
-  attributes :id, :title, :teaser, :body, :date, :author, :category, :image, :rating, :author, :premium, :published
+  attributes :id, :title, :teaser, :body, :date, :author, :category, :image, :rating, :author, :premium, :published,
+             :comments
 
   def author
     {
@@ -22,5 +23,21 @@ class ArticlesShowSerializer < ActiveModel::Serializer
 
   def rating
     Rating.where(article_id: object.id).average(:rating).to_f
+  end
+
+  def comments
+    comments = []
+    object.comments.each do |comment|
+      comments.push({
+                      id: comment.id,
+                      user: "#{comment.user.first_name} #{comment.user.last_name}",
+                      date: comment.created_at.strftime('%F'),
+                      body: comment.body
+                    })
+    end
+    
+    binding.pry
+    
+    comments.reverse
   end
 end
