@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   namespace :api do
     resources :ratings, only: [:create]
     resources :articles, only: %i[index show create update destroy]
-    resources :backyards, only: %i[index show create, destroy]
+    resources :backyards, only: %i[index show create destroy]
     resources :statistics, only: [:index]
   end
 end
