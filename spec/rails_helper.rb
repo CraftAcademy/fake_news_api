@@ -1,15 +1,14 @@
-require  'coveralls'
+require 'coveralls'
 Coveralls.wear_merged!('rails')
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
 require 'stripe_mock'
 require 'webmock/rspec'
-# WebMock.allow_net_connect!
 require 'rspec/rails'
 require 'rest-client'
 
-abort("The Rails environment is running in production mode!") if Rails.env.production?
+abort('The Rails environment is running in production mode!') if Rails.env.production?
 
 Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
 

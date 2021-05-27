@@ -10,7 +10,7 @@ class Api::StatisticsController < ApplicationController
       response = RestClient.get('https://api.stripe.com/v1/subscriptions', headers)
       data = JSON.parse(response)
       stripe_data_extractor(data)
-    rescue StandardError => e      
+    rescue StandardError => e
       stripe_error = JSON.parse(e.response)['error']['message']
       render json: { statistics: @statistics, stripe_error: stripe_error }, status: e.response.code and return
     end
@@ -36,11 +36,12 @@ class Api::StatisticsController < ApplicationController
   end
 
   def stripe_data_extractor(data)
-    amount_of_subscribers = { 
-        total: 0,
-        yearly_subscription: 0,
-        half_year_subscription: 0,
-        monthly_subscription: 0 }
+    amount_of_subscribers = {
+      total: 0,
+      yearly_subscription: 0,
+      half_year_subscription: 0,
+      monthly_subscription: 0
+    }
 
     total_income = {
       total: 0,
@@ -64,7 +65,7 @@ class Api::StatisticsController < ApplicationController
         total_income[:monthly_subscription] = amount_of_subscribers[:monthly_subscription] * 130
       end
     end
-    total_income.each do |key, value|
+    total_income.each do |_key, value|
       total_income[:total] += value
     end
 
@@ -79,9 +80,7 @@ class Api::StatisticsController < ApplicationController
       timeline.push({ date: date, articles: 0 })
 
       Article.where(backyard: false).each do |article|
-        if article[:created_at].strftime('%F') == date
-          timeline[i][:articles] += 1
-        end
+        timeline[i][:articles] += 1 if article[:created_at].strftime('%F') == date
       end
     end
     @statistics[:articles_timeline] = timeline
