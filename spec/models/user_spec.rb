@@ -15,11 +15,9 @@ RSpec.describe User, type: :model do
     it { is_expected.to define_enum_for(:role).with_values({ member: 1, subscriber: 2, journalist: 5, editor: 10 }) }
   end
 
-  describe 'Relationship between article and user' do
+  describe 'Relationships' do
     it { is_expected.to have_many(:articles) }
-  end
-
-  describe 'Relationship between user and ratings' do
+    it { is_expected.to have_many(:comments) }
     it { is_expected.to have_many(:ratings) }
   end
 

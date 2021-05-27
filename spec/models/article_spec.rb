@@ -44,8 +44,9 @@ RSpec.describe Article, type: :model do
     }
   end
 
-  describe 'Relationship between article and user' do
+  describe 'Relationships' do
     it { is_expected.to belong_to(:user) }
+    it { is_expected.to have_many(:comments) }
   end
 
   describe 'Relationship between article and ratings' do
