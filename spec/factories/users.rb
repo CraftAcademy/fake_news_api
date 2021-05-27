@@ -8,4 +8,12 @@ FactoryBot.define do
     last_name { 'Fake' }
     role { 5 }
   end
+
+  factory :subscriber, class: User do
+    email { Faker::Internet.email }
+    password { 'password' }
+    first_name { 'Mrs.' }
+    last_name { 'Fake' }
+    role { 2 }
+  end
 end
