@@ -83,6 +83,6 @@ class Api::StatisticsController < ApplicationController
         timeline[i][:articles] += 1 if article[:created_at].strftime('%F') == date
       end
     end
-    @statistics[:articles_timeline] = timeline
+    @statistics[:articles_timeline] = timeline.reverse()
   end
 end
