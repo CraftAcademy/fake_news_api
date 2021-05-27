@@ -3,11 +3,12 @@ RSpec.describe 'GET /api/articles', type: :request do
   let!(:journalist) { create(:user, role: 'journalist') }
   let!(:journalist2) { create(:user, role: 'journalist') }
   let(:auth_headers) { editor.create_new_auth_token }
-
+  
   describe 'successfully' do
     let!(:article1) { create(:article, title: 'First Article', user_id: journalist.id) }
     let!(:article2) { create(:article, title: 'Second Article', user_id: journalist.id) }
     let!(:article3) { create(:article, title: 'Third Article', user_id: journalist2.id) }
+    let!(:comment) { create(:comment, article_id: article3.id) }
     before do
       get '/api/articles',
           headers: auth_headers
@@ -27,6 +28,10 @@ RSpec.describe 'GET /api/articles', type: :request do
 
     it 'is expected to have a published status of true' do
       expect(response_json['articles'].first['published']).to eq true
+    end
+
+    it 'is expected to contain amount of comments connected to the article' do
+      expect(response_json['articles'].first['comments']).to eq 1
     end
   end
 
