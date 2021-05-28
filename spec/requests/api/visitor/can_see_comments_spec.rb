@@ -23,7 +23,7 @@ RSpec.describe 'GET /api/articles/:id', type: :request do
     end
 
     it 'is expected to return the comment\'s body' do
-      expect(response_json['article']['comments'].first['body']).to eq 'My husband is always coming home late from work...' 
+      expect(response_json['article']['comments'].first['body']).to eq 'I see dead people!' 
     end
 
     it 'is expected to return the comment\'s date of creation' do

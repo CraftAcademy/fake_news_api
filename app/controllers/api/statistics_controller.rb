@@ -1,20 +1,8 @@
 class Api::StatisticsController < ApplicationController
   before_action :authenticate_editor
+  before_action :get_statistics
 
   def index
-    @statistics = {}
-    get_local_statistics
-    get_articles_timeline
-    @statistics[:comments] = { total: Comment.all.count }
-    begin
-      headers = { Authorization: 'Bearer sk_test_51IovvJL7WvJmM60HFPImrEIk25YfJ3ovv4YOLXN77R43J7ZmPth8fKKvi2qoneds5w50RAblSRPIlaIXo2PMFEhy00w7WvCun0' }
-      response = RestClient.get('https://api.stripe.com/v1/subscriptions', headers)
-      data = JSON.parse(response)
-      stripe_data_extractor(data)
-    rescue StandardError => e
-      stripe_error = JSON.parse(e.response)['error']['message']
-      render json: { statistics: @statistics, stripe_error: stripe_error }, status: e.response.code and return
-    end
     render json: { statistics: @statistics }
   end
 
@@ -26,6 +14,13 @@ class Api::StatisticsController < ApplicationController
     render json: { error_message: 'You are not authorized to view this information' }, status: 403
   end
 
+  def get_statistics
+    @statistics = {}
+    get_local_statistics
+    get_articles_timeline
+    get_stripe_statistics
+  end
+
   def get_local_statistics
     @statistics[:articles] = {
       total: Article.where(backyard: false).count,
@@ -34,6 +29,32 @@ class Api::StatisticsController < ApplicationController
     }
     @statistics[:backyard_articles] = { total: Article.where(backyard: true).count }
     @statistics[:journalists] = { total: User.where(role: 5).count }
+    @statistics[:comments] = { total: Comment.all.count }
+  end
+
+  def get_articles_timeline
+    timeline = []
+    (0...7).each do |i|
+      date = (DateTime.now - i).strftime('%F')
+      timeline.push({ date: date, articles: 0 })
+
+      Article.where(backyard: false).each do |article|
+        timeline[i][:articles] += 1 if article[:created_at].strftime('%F') == date
+      end
+    end
+    @statistics[:articles_timeline] = timeline.reverse
+  end
+
+  def get_stripe_statistics 
+    begin
+      headers = { Authorization: 'Bearer sk_test_51IovvJL7WvJmM60HFPImrEIk25YfJ3ovv4YOLXN77R43J7ZmPth8fKKvi2qoneds5w50RAblSRPIlaIXo2PMFEhy00w7WvCun0' }
+      response = RestClient.get('https://api.stripe.com/v1/subscriptions', headers)
+      data = JSON.parse(response)
+      stripe_data_extractor(data)
+    rescue StandardError => e
+      stripe_error = JSON.parse(e.response)['error']['message']
+      render json: { statistics: @statistics, stripe_error: stripe_error }, status: e.response.code and return
+    end
   end
 
   def stripe_data_extractor(data)
@@ -72,18 +93,5 @@ class Api::StatisticsController < ApplicationController
 
     @statistics[:subscribers] = amount_of_subscribers
     @statistics[:total_income] = total_income
-  end
-
-  def get_articles_timeline
-    timeline = []
-    (0...7).each do |i|
-      date = (DateTime.now - i).strftime('%F')
-      timeline.push({ date: date, articles: 0 })
-
-      Article.where(backyard: false).each do |article|
-        timeline[i][:articles] += 1 if article[:created_at].strftime('%F') == date
-      end
-    end
-    @statistics[:articles_timeline] = timeline.reverse
   end
 end
