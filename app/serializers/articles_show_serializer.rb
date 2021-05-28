@@ -1,5 +1,6 @@
 class ArticlesShowSerializer < ActiveModel::Serializer
   attributes :id, :title, :teaser, :body, :date, :author, :category, :image, :rating, :author, :premium, :published
+  has_many :comments, :serializer => CommentsIndexSerializer
 
   def author
     {
