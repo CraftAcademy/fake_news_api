@@ -90,7 +90,7 @@ class Api::ArticlesController < ApplicationController
   end
 
   def publish_article(article)
-    if current_user&.editor?
+    if current_user.editor?
       article.update(published: true)
       render json: { message: 'Your article has been successfully updated!' }, status: 200
     else
