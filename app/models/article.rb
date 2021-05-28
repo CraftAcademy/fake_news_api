@@ -13,6 +13,7 @@ class Article < ApplicationRecord
   validates :category, inclusion: { in: %w[Science Aliens Covid Illuminati Politics Hollywood] }, unless: :is_backyard?
   has_one_attached :image
   has_many :ratings
+  has_many :comments
 
   # Backyard articles
   validates :theme, :location, presence: true, if: :is_backyard?
