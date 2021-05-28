@@ -1,4 +1,5 @@
 require 'uri'
+require 'faker'
 
 titles = [
   'New Vaccine Conspiracy Theories Are Going Viral in Arabic',
@@ -45,34 +46,46 @@ categories = %w[Science Aliens Covid Illuminati Politics Hollywood]
 
 themes = %w[Science Aliens Covid Trump Cats CIA Singles]
 
-puts 'Creating journalist...'
+puts 'Creating journalists...'
 journalist = User.create(email: 'mrfake@fakenews.com', password: 'password', password_confirmation: 'password',
                          first_name: 'Mr.', last_name: 'Fake', role: 5)
+(0..5).each do |i|
+User.create(email: Faker::Internet.email, password: 'password', first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, role: 5)
+end
 
-puts 'Creating subscriber...'
+puts 'Creating subscribers...'
 subscriber = User.create(email: 'subscriber@gmail.com', password: 'password', password_confirmation: 'password',
                          first_name: 'Bob', last_name: 'Kramer', role: 2)
+(0..5).each do |i|
+  User.create(email: Faker::Internet.email, password: 'password', first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, role: 2)
+end
 
 puts 'Creating editor....'
 editor = User.create(email: 'editor@gmail.com', password: 'password', password_confirmation: 'password',
                      first_name: 'Sam', last_name: 'Kramer', role: 10)
 
-puts 'Creating articles...'
+puts 'Spreading the truth...'
 (0...titles.count).each do |i|
   article = Article.create(title: titles[i], teaser: teasers[i], body: body[i], created_at: (DateTime.now - rand(7)),
                            category: categories[rand(categories.count - 1)], user_id: journalist.id, premium: [true, false].sample, published: true)
   Rating.create(user_id: journalist.id, article_id: article.id, rating: 3)
 end
 
-puts 'Attaching images to articles...'
+puts 'My opinion is gospel...'
+Article.where(backyard: false).each do |article|
+  rand(4).times { article.comments.create(body: Faker::ChuckNorris.fact, user_id: User.where(role: 2).sample.id) }
+end
+
+puts 'Attaching truthful images to articles...'
 Article.all.each_with_index do |article, index|
   file = URI.open(image_url[index])
 
   article.image.attach(io: file, filename: 'article_image.jpg', content_type: 'image/jpg')
 end
 
-puts 'Creating backyard articles...'
+puts 'Generating valid insights...'
 (0...titles.count).each do |i|
   backyard_article = Article.create(title: titles[i], body: body[i], backyard: true, location: %w[Sweden Denmark].sample,
                                     theme: themes[i], user_id: subscriber.id)
 end
+
