@@ -52,4 +52,5 @@ class Api::BackyardsController < ApplicationController
 
     render json: { error_message: 'You are not authorized to delete this article' }, status: 403
   end
+
 end

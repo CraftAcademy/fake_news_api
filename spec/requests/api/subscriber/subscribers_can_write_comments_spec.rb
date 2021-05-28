@@ -40,7 +40,22 @@ RSpec.describe 'POST /api/articles/:id/comments', type: :request do
     end
 
     it 'is expected to respond with an error message' do
-      expect(response_json['error_message']).to eq 'Please subscribe to be able to comment'
+      expect(response_json['errors'].first).to eq 'You need to sign in or sign up before continuing.'
+    end
+  end
+
+  describe "unsuccessfully with empty body parameter" do
+    before do
+      post "/api/articles/#{article.id}/comments",
+      headers: subscriber_headers
+    end
+
+    it "is expected to respond with a status of 422" do
+      expect(response).to have_http_status 422  
+    end
+
+    it "is expected to respond with an error message" do
+      expect(response_json['error_message']).to eq 'Comment can\'t be empty'  
     end
   end
 end
