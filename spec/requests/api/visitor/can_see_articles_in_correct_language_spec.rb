@@ -1,6 +1,6 @@
 RSpec.describe 'GET api/articles', type: :request do
-  let!(:article_en) { create(:article, language: 'en') }
-  let!(:article_se) { create(:article, language: 'se') }
+  let!(:article_en) { create(:article, language: 'EN') }
+  let!(:article_se) { create(:article, language: 'SE') }
 
   describe 'succesfully, in english, with no params' do
     before do
@@ -16,7 +16,7 @@ RSpec.describe 'GET api/articles', type: :request do
     end
 
     it 'is expected to return article in english' do
-      expect(response_json['articles'].first['language']).to eq 'en'
+      expect(response_json['articles'].first['language']).to eq 'EN'
     end
   end
 
@@ -34,7 +34,7 @@ RSpec.describe 'GET api/articles', type: :request do
     end
 
     it 'is expected to return article in swedish' do
-      expect((response_json['articles'].first)['language']).to eq 'se'
+      expect(response_json['articles'].first['language']).to eq 'SE'
     end
   end
 end
