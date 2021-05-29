@@ -12,10 +12,10 @@ class Api::ArticlesController < ApplicationController
       render json: articles_by_journalist, each_serializer: ArticlesIndexSerializer and return
     end
     if params[:category]
-      articles_by_category = Article.public_articles.where(category: params[:category])
+      articles_by_category = Article.public_articles.where(category: params[:category], language: params[:language])
       render json: articles_by_category, each_serializer: ArticlesIndexSerializer
     else
-      articles = Article.public_articles.most_recent
+      articles = Article.public_articles.most_recent.where(language: params[:language])
       render json: articles, each_serializer: ArticlesIndexSerializer
     end
   end
