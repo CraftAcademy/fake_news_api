@@ -1,6 +1,6 @@
 class Article < ApplicationRecord
   validates_inclusion_of :backyard, in: [false, true]
-  validates_presence_of :title, :body
+  validates_presence_of :title, :body, :status
   belongs_to :user
 
   scope :most_recent, -> { order(updated_at: :desc) }

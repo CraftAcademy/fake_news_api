@@ -13,13 +13,14 @@ RSpec.describe Article, type: :model do
   end
 
   describe 'status' do
-    it { is_expected.to define_enum_for(:status).with_values({arcived: 1, draft: 5, published: 10}) }
+    it { is_expected.to define_enum_for(:status).with_values({ arcived: 1, draft: 5, published: 10 }) }
   end
 
   describe 'Validation' do
     it { is_expected.to validate_presence_of :title }
     it { is_expected.to validate_presence_of :body }
     it { is_expected.to validate_inclusion_of(:backyard).in_array([false, true]) }
+    it { is_expected.to validate_presence_of(:status) }
 
     context 'Normal article' do
       before { allow(subject).to receive(:is_backyard?).and_return(false) }
@@ -32,7 +33,7 @@ RSpec.describe Article, type: :model do
         is_expected.to validate_inclusion_of(:category)
           .in_array(%w[Science Aliens Covid Illuminati Politics Hollywood])
       }
-      it { is_expected.to validate_inclusion_of(:published).in_array([false, true])}
+      it { is_expected.to validate_inclusion_of(:published).in_array([false, true]) }
     end
 
     context 'Backyard article' do
