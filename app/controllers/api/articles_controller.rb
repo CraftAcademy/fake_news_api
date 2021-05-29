@@ -2,6 +2,7 @@ class Api::ArticlesController < ApplicationController
   before_action :authenticate_user!, only: %i[create]
   before_action :admin_authenticator, only: %i[create]
   before_action :editor_authenticator, only: %i[destroy]
+  before_action :set_language_for_index, only: %i[index]
 
   def index
     if current_user&.editor?
@@ -12,10 +13,10 @@ class Api::ArticlesController < ApplicationController
       render json: articles_by_journalist, each_serializer: ArticlesIndexSerializer and return
     end
     if params[:category]
-      articles_by_category = Article.public_articles.where(category: params[:category])
+      articles_by_category = Article.public_articles.where(category: params[:category], language: @language)
       render json: articles_by_category, each_serializer: ArticlesIndexSerializer
     else
-      articles = Article.public_articles.most_recent
+      articles = Article.public_articles.most_recent.where(language: @language)
       render json: articles, each_serializer: ArticlesIndexSerializer
     end
   end
@@ -65,12 +66,20 @@ class Api::ArticlesController < ApplicationController
 
   private
 
+  def set_language_for_index
+    if params[:language]
+      @language = params[:language].upcase
+    else
+      @language = 'EN'
+    end
+  end
+
   def attach_image(article)
     params[:article][:image].present? && DecodeService.attach_image(params[:article][:image], article.image)
   end
 
   def article_params
-    params[:article].permit(:title, :teaser, :category, :premium, :body)
+    params[:article].permit(:title, :teaser, :category, :premium, :body, :language)
   end
 
   def article_evaluation(article)

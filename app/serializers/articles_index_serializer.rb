@@ -1,5 +1,6 @@
 class ArticlesIndexSerializer < ActiveModel::Serializer
-  attributes :id, :title, :teaser, :date, :category, :image, :rating, :author, :premium, :published, :comments
+  attributes :id, :title, :teaser, :date, :category, :language, :image, :rating, :author, :premium, :published,
+             :comments
 
   def date
     object.updated_at.strftime('%F, %H:%M')
