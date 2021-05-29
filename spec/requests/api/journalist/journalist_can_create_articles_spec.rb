@@ -14,6 +14,7 @@ RSpec.describe 'POST /api/articles', type: :request do
                teaser: 'Some damn teaser',
                body: "Husband found dead allegedly because he wasn't testing first",
                category: 'Hollywood',
+               language: 'EN',
                image: image,
                premium: true
              }
