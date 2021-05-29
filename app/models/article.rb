@@ -5,6 +5,7 @@ class Article < ApplicationRecord
 
   scope :most_recent, -> { order(updated_at: :desc) }
   scope :public_articles, -> { where(backyard: false, published: true) }
+  enum status: {arcived: 1, draft: 5, published: 10}
 
   # Normal articles
   validates :category, :language, :teaser, presence: true, unless: :is_backyard?

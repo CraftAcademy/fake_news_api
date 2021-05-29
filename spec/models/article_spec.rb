@@ -12,6 +12,10 @@ RSpec.describe Article, type: :model do
     it { is_expected.to have_db_column(:language).of_type(:string) }
   end
 
+  describe 'status' do
+    it { is_expected.to define_enum_for(:status).with_values({arcived: 1, draft: 5, published: 10}) }
+  end
+
   describe 'Validation' do
     it { is_expected.to validate_presence_of :title }
     it { is_expected.to validate_presence_of :body }
