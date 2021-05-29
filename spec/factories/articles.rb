@@ -8,6 +8,7 @@ FactoryBot.define do
     category { 'Science' }
     premium { true }
     published { true }
+    language { 'EN' }
     after(:build) do |article|
       file = File.open(Rails.root.join('spec', 'fixtures', 'fake-news-fixture.jpg'))
       article.image.attach(io: file, filename: 'article_image.jpg', content_type: 'image/jpg')
