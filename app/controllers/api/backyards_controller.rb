@@ -44,6 +44,7 @@ class Api::BackyardsController < ApplicationController
   def build_backyard_article
     backyard_article = current_user.articles.build(article_params)
     backyard_article['backyard'] = true
+    backyard_article['status'] = 'published'
     backyard_article.save
     backyard_article
   end
@@ -56,6 +57,6 @@ class Api::BackyardsController < ApplicationController
 
   def editor_index_action
     render json: Article.where(backyard: true), each_serializer: BackyardsIndexSerializer if current_user&.editor?
-    return
+    nil
   end
 end
