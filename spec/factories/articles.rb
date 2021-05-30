@@ -7,8 +7,7 @@ FactoryBot.define do
     backyard { false }
     category { 'Science' }
     premium { true }
-    published { true }
-    status { 5 }
+    status { 10 }
     language { 'EN' }
     after(:build) do |article|
       file = File.open(Rails.root.join('spec', 'fixtures', 'fake-news-fixture.jpg'))
