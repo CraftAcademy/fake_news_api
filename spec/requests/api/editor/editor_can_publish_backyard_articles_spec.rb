@@ -1,13 +1,13 @@
-RSpec.describe 'PUT api/articles', type: :request do
+RSpec.describe 'PUT /api/backyards/', type: :request do
   let!(:editor) { create(:user, role: 'editor') }
   let!(:journalist) { create(:user, role: 'journalist') }
-  let!(:article) { create(:article, title: 'Old Article', user_id: journalist.id, status: 'draft') }
+  let!(:backyard_article) { create(:backyard_article, status: 'archived') }
   let!(:auth_headers) { editor.create_new_auth_token }
   let!(:auth_headers_journalist) { journalist.create_new_auth_token }
 
   describe 'successfully as an editor' do
     before do
-      put "/api/articles/#{article.id}",
+      put "/api/backyards/#{backyard_article.id}",
           params: {
             status: 'published'
           },
@@ -19,17 +19,17 @@ RSpec.describe 'PUT api/articles', type: :request do
     end
 
     it 'is expected to return a success message' do
-      expect(response_json['message']).to eq 'Your article has been successfully updated!'
+      expect(response_json['message']).to eq 'This backyard article has been successfully updated'
     end
 
     it 'is expected to set published status to true' do
-      expect(article.reload.published?).to eq true
+      expect(backyard_article.reload.published?).to eq true
     end
   end
 
   describe 'unsuccessfully as a journalist' do
     before do
-      put "/api/articles/#{article.id}",
+      put "/api/backyards/#{backyard_article.id}",
           params: {
             status: 'published'
           },
@@ -41,7 +41,7 @@ RSpec.describe 'PUT api/articles', type: :request do
     end
 
     it 'is expected to return a error message' do
-      expect(response_json['error_message']).to eq 'You are not authorized to publish an article!'
+      expect(response_json['error_message']).to eq 'You are not authorized to update this article'
     end
   end
 end

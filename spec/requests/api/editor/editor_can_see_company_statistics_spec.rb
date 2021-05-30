@@ -7,7 +7,8 @@ RSpec.describe 'GET /api/statistics', type: :request do
   let!(:published_article2) { create(:article, created_at: Time.zone.now - 100_000)  }
   let!(:published_article3) { create(:article, created_at: Time.zone.now - 200_000)  }
   let!(:comment) { 3.times { create(:comment, article_id: published_article3.id, user_id: journalist.id) } }
-  let!(:unpublished_articles) { create(:article, published: false) }
+  let!(:draft_article) { create(:article, status: 'draft') }
+  let!(:archived_article) { create(:article, status: 'archived') }
   let!(:backyard_articles) { 3.times { create(:backyard_article) } }
   let!(:subscriptions_data) do
     file_fixture('stripe_stats.json').read
@@ -25,11 +26,11 @@ RSpec.describe 'GET /api/statistics', type: :request do
     end
 
     it 'is expected to return the total number of journalists' do
-      expect(response_json['statistics']['journalists']['total']).to eq 8
+      expect(response_json['statistics']['journalists']['total']).to eq 9
     end
 
     it 'is expected to return the total number of articles' do
-      expect(response_json['statistics']['articles']['total']).to eq 4
+      expect(response_json['statistics']['articles']['total']).to eq 5
     end
 
     it 'is expected to return the total number of published articles' do
@@ -37,7 +38,7 @@ RSpec.describe 'GET /api/statistics', type: :request do
     end
 
     it 'is expected to return the total number of unpublished articles' do
-      expect(response_json['statistics']['articles']['unpublished']).to eq 1
+      expect(response_json['statistics']['articles']['archived']).to eq 1
     end
 
     it 'is expected to return the total number of backyard articles' do

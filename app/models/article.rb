@@ -1,15 +1,15 @@
 class Article < ApplicationRecord
   validates_inclusion_of :backyard, in: [false, true]
-  validates_presence_of :title, :body
+  validates_presence_of :title, :body, :status
   belongs_to :user
 
   scope :most_recent, -> { order(updated_at: :desc) }
-  scope :public_articles, -> { where(backyard: false, published: true) }
+  scope :public_articles, -> { where(backyard: false, status: 'published') }
+  enum status: {archived: 1, draft: 5, published: 10}
 
   # Normal articles
   validates :category, :teaser, presence: true, unless: :is_backyard?
   validates :premium, inclusion: { in: [false, true] }, unless: :is_backyard?
-  validates :published, inclusion: { in: [false, true] }, unless: :is_backyard?
   validates :category, inclusion: { in: %w[Science Aliens Covid Illuminati Politics Hollywood] }, unless: :is_backyard?
   has_one_attached :image
   has_many :ratings

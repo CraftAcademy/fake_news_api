@@ -1,6 +1,6 @@
 class Api::BackyardsController < ApplicationController
   before_action :authenticate_user!, only: %i[create]
-  before_action :editor_authenticator, only: %i[destroy]
+  before_action :editor_authenticator, only: %i[update]
   before_action :editor_index_action, only: %i[index]
 
   def index
@@ -24,10 +24,10 @@ class Api::BackyardsController < ApplicationController
     end
   end
 
-  def destroy
-    article = Article.find(params[:id])
-    article.destroy
-    render json: { message: 'The article was successfully deleted' }
+  def update
+    backyard_article = Article.find(params[:id])
+    backyard_article.update(status: params['status'])
+    render json: { message: 'This backyard article has been successfully updated' }, status: 200
   end
 
   private
@@ -44,6 +44,7 @@ class Api::BackyardsController < ApplicationController
   def build_backyard_article
     backyard_article = current_user.articles.build(article_params)
     backyard_article['backyard'] = true
+    backyard_article['status'] = 'published'
     backyard_article.save
     backyard_article
   end
@@ -51,11 +52,11 @@ class Api::BackyardsController < ApplicationController
   def editor_authenticator
     return if current_user&.editor?
 
-    render json: { error_message: 'You are not authorized to delete this article' }, status: 403
+    render json: { error_message: 'You are not authorized to update this article' }, status: 403
   end
 
   def editor_index_action
     render json: Article.where(backyard: true), each_serializer: BackyardsIndexSerializer if current_user&.editor?
-    return
+    nil
   end
 end

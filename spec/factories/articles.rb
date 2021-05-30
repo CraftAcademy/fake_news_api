@@ -7,7 +7,7 @@ FactoryBot.define do
     backyard { false }
     category { 'Science' }
     premium { true }
-    published { true }
+    status { 10 }
     language { 'EN' }
     after(:build) do |article|
       file = File.open(Rails.root.join('spec', 'fixtures', 'fake-news-fixture.jpg'))
@@ -22,5 +22,6 @@ FactoryBot.define do
     association :user
     backyard { true }
     location { 'Sweden' }
+    status { 10 }
   end
 end

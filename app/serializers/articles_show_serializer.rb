@@ -1,5 +1,5 @@
 class ArticlesShowSerializer < ActiveModel::Serializer
-  attributes :id, :title, :teaser, :body, :date, :author, :category, :image, :rating, :author, :premium, :published
+  attributes :id, :title, :teaser, :body, :date, :author, :category, :status, :image, :rating, :author, :premium
   has_many :comments, :serializer => CommentsIndexSerializer
 
   def author
@@ -7,6 +7,10 @@ class ArticlesShowSerializer < ActiveModel::Serializer
       first_name: object.user.first_name,
       last_name: object.user.last_name
     }
+  end
+  
+  def status
+    object.status.capitalize    
   end
 
   def date

@@ -8,14 +8,19 @@ RSpec.describe Article, type: :model do
     it { is_expected.to have_db_column(:theme).of_type(:string) }
     it { is_expected.to have_db_column(:backyard).of_type(:boolean) }
     it { is_expected.to have_db_column(:premium).of_type(:boolean) }
-    it { is_expected.to have_db_column(:published).of_type(:boolean) }
+
     it { is_expected.to have_db_column(:language).of_type(:string) }
+  end
+
+  describe 'status' do
+    it { is_expected.to define_enum_for(:status).with_values({ archived: 1, draft: 5, published: 10 }) }
   end
 
   describe 'Validation' do
     it { is_expected.to validate_presence_of :title }
     it { is_expected.to validate_presence_of :body }
     it { is_expected.to validate_inclusion_of(:backyard).in_array([false, true]) }
+    it { is_expected.to validate_presence_of(:status) }
 
     context 'Normal article' do
       before { allow(subject).to receive(:is_backyard?).and_return(false) }
@@ -27,7 +32,7 @@ RSpec.describe Article, type: :model do
         is_expected.to validate_inclusion_of(:category)
           .in_array(%w[Science Aliens Covid Illuminati Politics Hollywood])
       }
-      it { is_expected.to validate_inclusion_of(:published).in_array([false, true])}
+      
     end
 
     context 'Backyard article' do
