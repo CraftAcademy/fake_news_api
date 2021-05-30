@@ -1,9 +1,13 @@
 class ArticlesIndexSerializer < ActiveModel::Serializer
-  attributes :id, :title, :teaser, :date, :category, :language, :image, :rating, :author, :premium, :published,
-             :comments
+  attributes :id, :title, :teaser, :date, :category, :status, :language, :image, :rating, :author, :premium, :comments
 
   def date
     object.updated_at.strftime('%F, %H:%M')
+  end
+
+  def status
+    object.status.capitalize
+    
   end
 
   def image
