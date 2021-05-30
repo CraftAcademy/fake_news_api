@@ -1,5 +1,5 @@
 class AddLanguageToArticle < ActiveRecord::Migration[6.1]
   def change
-    add_column :articles, :language, :string
+    add_column :articles, :language, :string, default: 'EN'
   end
 end
