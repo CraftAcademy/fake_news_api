@@ -6,8 +6,7 @@ class ArticlesIndexSerializer < ActiveModel::Serializer
   end
 
   def status
-    object.status.capitalize
-    
+    object.status.capitalize    
   end
 
   def image
