@@ -27,7 +27,7 @@ editor = User.create(email: 'editor@gmail.com', password: 'password', password_c
 puts 'Spreading the truth...'
 articles.each do |article|
   article_db = Article.create(title: article['title'], teaser: article['teaser'], body: article['body'], created_at: (DateTime.now - rand(7)),
-                              category: article['category'], language: article['language'], user_id: journalist.id, premium: [true, false].sample, published: true)
+                              category: article['category'], language: article['language'], user_id: journalist.id, premium: [true, false].sample, status: 'published')
   Rating.create(user_id: journalist.id, article_id: article_db.id, rating: [3, 4, 5].sample)
   image_file = URI.open(article['image'])
   article_db.image.attach(io: image_file, filename: 'article_image.jpg', content_type: 'image/jpg')
@@ -41,5 +41,5 @@ end
 puts 'Generating valid insights...'
 backyards.each do |backyard|
   backyard_db = Article.create(title: backyard['title'], body: backyard['body'], backyard: true, location: backyard['location'],
-                               theme: backyard['theme'], user_id: subscriber.id)
+                               theme: backyard['theme'], user_id: subscriber.id, status: 'published')
 end
