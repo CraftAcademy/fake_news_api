@@ -4,7 +4,7 @@ RSpec.describe 'GET /api/articles/:id' do
   let!(:subscriber2) { create(:user, role: 'subscriber') }
   let(:auth_headers2) { subscriber2.create_new_auth_token }
   let!(:article) { create(:article) }
-  let!(:unpublished_article) { create(:article, published: false) }
+  let!(:unpublished_article) { create(:article, status: 'draft') }
 
   describe 'successfully' do
     before do

@@ -5,6 +5,7 @@ RSpec.describe 'POST /api/articles', type: :request do
     File.read(fixture_path + '/fake-news-fixture.txt')
   end
 
+  
   describe 'successfully' do
     before do
       post '/api/articles',

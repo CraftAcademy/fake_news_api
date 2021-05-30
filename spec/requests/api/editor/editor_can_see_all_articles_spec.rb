@@ -26,8 +26,8 @@ RSpec.describe 'GET /api/articles', type: :request do
       expect(response_json['articles'].first['title']).to eq 'Third Article'
     end
 
-    it 'is expected to have a published status of true' do
-      expect(response_json['articles'].first['published']).to eq true
+    it 'is expected to have a status published' do
+      expect(response_json['articles'].first['status']).to eq 'Published'
     end
 
     it 'is expected to contain amount of comments connected to the article' do
