@@ -49,19 +49,13 @@ class Api::ArticlesController < ApplicationController
     article = Article.find(params[:id])
     if article_evaluation(article)
       if params[:status]
-        publish_article(article)
+        update_article_status(article, params[:status])
       else
         update_article(article)
       end
     else
       render json: { error_message: 'You are not authorized to edit this article' }, status: 403
     end
-  end
-
-  def destroy
-    article = Article.find(params[:id])
-    article.destroy
-    render json: { message: 'The article was successfully deleted' }
   end
 
   private
@@ -98,9 +92,9 @@ class Api::ArticlesController < ApplicationController
     render json: { error_message: 'You are not authorized to delete this article' }, status: 403
   end
 
-  def publish_article(article)
+  def update_article_status(article, status)
     if current_user.editor?
-      article.update(status: 'published')
+      article.update(status: status)
       render json: { message: 'Your article has been successfully updated!' }, status: 200
     else
       render json: { error_message: 'You are not authorized to publish an article!' }, status: 403
