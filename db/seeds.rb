@@ -27,7 +27,7 @@ editor = User.create(email: 'editor@gmail.com', password: 'password', password_c
 puts 'Spreading the truth...'
 articles.each do |article|
   article_db = Article.create(title: article['title'], teaser: article['teaser'], body: article['body'], created_at: (DateTime.now - rand(7)),
-                              category: article['category'], user_id: journalist.id, premium: [true, false].sample, published: true)
+                              category: article['category'], language: article['language'], user_id: journalist.id, premium: [true, false].sample, published: true)
   Rating.create(user_id: journalist.id, article_id: article_db.id, rating: [3, 4, 5].sample)
   image_file = URI.open(article['image'])
   article_db.image.attach(io: image_file, filename: 'article_image.jpg', content_type: 'image/jpg')

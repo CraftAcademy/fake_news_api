@@ -22,7 +22,6 @@ RSpec.describe Article, type: :model do
 
       it { is_expected.to validate_presence_of :teaser }
       it { is_expected.to validate_presence_of :category }
-      it { is_expected.to validate_presence_of :language }
       it { is_expected.to validate_inclusion_of(:premium).in_array([false, true]) }
       it {
         is_expected.to validate_inclusion_of(:category)

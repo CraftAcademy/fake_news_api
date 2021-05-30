@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 2021_05_29_133252) do
     t.string "theme"
     t.boolean "backyard", default: false
     t.boolean "published", default: false
-    t.string "language"
+    t.string "language", default: "EN"
     t.index ["user_id"], name: "index_articles_on_user_id"
   end
 
