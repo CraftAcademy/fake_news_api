@@ -3,7 +3,7 @@ RSpec.describe 'GET /api/articles', type: :request do
     let!(:article1) { create(:article, title: 'Second Article', created_at: Time.zone.now - 100_000) }
     let!(:article2) { create(:article, title: 'First Article', created_at: Time.zone.now - 200_000) }
     let!(:article3) { create(:article, title: 'Third Article') }
-    let!(:unpublished_articles) { 2.times { create(:article, published: false) } }
+    let!(:unpublished_articles) { 2.times { create(:article, status: 'draft') } }
 
     before do
       get '/api/articles'

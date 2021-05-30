@@ -28,6 +28,11 @@ RSpec.describe 'POST /api/backyards', type: :request do
       articles = Article.all.where(backyard: true)
       expect(articles.count).to eq 1
     end
+
+    it 'is expected to be published' do
+      articles = Article.all.where(backyard: true)
+      expect(articles.first.published?).to eq true
+    end
   end
 
   describe 'Unsuccessfully as a visitor' do

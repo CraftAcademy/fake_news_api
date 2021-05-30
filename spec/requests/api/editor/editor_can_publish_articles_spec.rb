@@ -1,15 +1,15 @@
 RSpec.describe 'PUT api/articles', type: :request do
   let!(:editor) { create(:user, role: 'editor') }
   let!(:journalist) { create(:user, role: 'journalist') }
-  let!(:article) { create(:article, title: 'Old Article', user_id: journalist.id, published: false) }
+  let!(:article) { create(:article, title: 'Old Article', user_id: journalist.id, status: 'draft') }
   let!(:auth_headers) { editor.create_new_auth_token }
   let!(:auth_headers_journalist) { journalist.create_new_auth_token }
 
   describe 'successfully as an editor' do
     before do
       put "/api/articles/#{article.id}",
-          params: { 
-              published: true
+          params: {
+            status: 'published'
           },
           headers: auth_headers
     end
@@ -30,8 +30,8 @@ RSpec.describe 'PUT api/articles', type: :request do
   describe 'unsuccessfully as a journalist' do
     before do
       put "/api/articles/#{article.id}",
-          params: { 
-              published: true
+          params: {
+            status: 'published'
           },
           headers: auth_headers_journalist
     end

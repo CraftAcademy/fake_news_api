@@ -48,8 +48,8 @@ class Api::ArticlesController < ApplicationController
   def update
     article = Article.find(params[:id])
     if article_evaluation(article)
-      if params[:published]
-        publish_article(article)
+      if params[:status]
+        update_article_status(article, params[:status])
       else
         update_article(article)
       end
@@ -58,20 +58,14 @@ class Api::ArticlesController < ApplicationController
     end
   end
 
-  def destroy
-    article = Article.find(params[:id])
-    article.destroy
-    render json: { message: 'The article was successfully deleted' }
-  end
-
   private
 
   def set_language_for_index
-    if params[:language]
-      @language = params[:language].upcase
-    else
-      @language = 'EN'
-    end
+    @language = if params[:language]
+                  params[:language].upcase
+                else
+                  'EN'
+                end
   end
 
   def attach_image(article)
@@ -79,7 +73,7 @@ class Api::ArticlesController < ApplicationController
   end
 
   def article_params
-    params[:article].permit(:title, :teaser, :category, :premium, :body, :language)
+    params[:article].permit(:title, :teaser, :category, :status, :premium, :body, :language)
   end
 
   def article_evaluation(article)
@@ -98,9 +92,9 @@ class Api::ArticlesController < ApplicationController
     render json: { error_message: 'You are not authorized to delete this article' }, status: 403
   end
 
-  def publish_article(article)
+  def update_article_status(article, status)
     if current_user.editor?
-      article.update(published: true)
+      article.update(status: status)
       render json: { message: 'Your article has been successfully updated!' }, status: 200
     else
       render json: { error_message: 'You are not authorized to publish an article!' }, status: 403
