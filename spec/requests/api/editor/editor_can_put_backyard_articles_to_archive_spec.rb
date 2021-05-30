@@ -1,4 +1,4 @@
-RSpec.describe 'PUT /api/articles/:id' do
+RSpec.describe 'PUT /api/backyards/:id' do
   let(:article) { create(:backyard_article) }
   let(:editor) { create(:user, role: 'editor') }
   let(:editor_headers) { editor.create_new_auth_token }
@@ -6,6 +6,9 @@ RSpec.describe 'PUT /api/articles/:id' do
   describe 'Successfully' do
     before do
       put "/api/backyards/#{article.id}",
+          params: {
+            status: 'archived'
+          },
           headers: editor_headers
     end
 
@@ -14,7 +17,7 @@ RSpec.describe 'PUT /api/articles/:id' do
     end
 
     it 'is expected to return a success message' do
-      expect(response_json['message']).to eq 'This backyard article has been successfully archived'
+      expect(response_json['message']).to eq 'This backyard article has been successfully updated'
     end
 
     it 'is expected to have archive article' do
@@ -25,6 +28,9 @@ RSpec.describe 'PUT /api/articles/:id' do
   describe 'Unsuccessfully because article does not exist' do
     before do
       put "/api/backyards/#{article.id + 1}",
+          params: {
+            status: 'archived'
+          },
           headers: editor_headers
     end
 
@@ -33,7 +39,7 @@ RSpec.describe 'PUT /api/articles/:id' do
     end
 
     it 'is expected to return an error message' do
-      expect(response_json['error_message']).to eq "Couldn't find Article with 'id'=#{article.id+1}"
+      expect(response_json['error_message']).to eq "Couldn't find Article with 'id'=#{article.id + 1}"
     end
   end
 
@@ -43,6 +49,9 @@ RSpec.describe 'PUT /api/articles/:id' do
 
     before do
       put "/api/backyards/#{article.id}",
+          params: {
+            status: 'archived'
+          },
           headers: journalist_headers
     end
 
@@ -51,7 +60,7 @@ RSpec.describe 'PUT /api/articles/:id' do
     end
 
     it 'is expected to return an error message' do
-      expect(response_json['error_message']).to eq 'You are not authorized to archive this article'
+      expect(response_json['error_message']).to eq 'You are not authorized to update this article'
     end
   end
 end

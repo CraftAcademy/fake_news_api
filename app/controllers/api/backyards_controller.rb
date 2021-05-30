@@ -26,16 +26,11 @@ class Api::BackyardsController < ApplicationController
 
   def update
     backyard_article = Article.find(params[:id])
-    archive_article(backyard_article)   
+    backyard_article.update(status: params['status'])
+    render json: { message: 'This backyard article has been successfully updated' }, status: 200
   end
 
   private
-
-  def archive_article(backyard_article)
-    backyard_article.archived!
-    backyard_article.save
-    render json: { message: 'This backyard article has been successfully archived' }, status: 200
-  end
 
   def get_country
     country_response = Geocoder.search([params[:lat], params[:lon]])
@@ -57,7 +52,7 @@ class Api::BackyardsController < ApplicationController
   def editor_authenticator
     return if current_user&.editor?
 
-    render json: { error_message: 'You are not authorized to archive this article' }, status: 403
+    render json: { error_message: 'You are not authorized to update this article' }, status: 403
   end
 
   def editor_index_action
