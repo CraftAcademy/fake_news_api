@@ -24,8 +24,9 @@ class Api::StatisticsController < ApplicationController
   def get_local_statistics
     @statistics[:articles] = {
       total: Article.where(backyard: false).count,
-      published: Article.where(published: true, backyard: false).count,
-      unpublished: Article.where(published: false, backyard: false).count
+      published: Article.where(status: 'published', backyard: false).count,
+      drafts: Article.where(status: 'draft', backyard: false).count,
+      archived: Article.where(status: 'archived', backyard: false).count
     }
     @statistics[:backyard_articles] = { total: Article.where(backyard: true).count }
     @statistics[:journalists] = { total: User.where(role: 5).count }
