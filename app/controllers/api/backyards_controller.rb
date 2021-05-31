@@ -11,8 +11,12 @@ class Api::BackyardsController < ApplicationController
   end
 
   def show
-    backyard_article = Article.find(params[:id])
-    render json: backyard_article, serializer: BackyardsShowSerializerSerializer, root: :backyard_article
+    backyard_article = Article.where(id: params[:id], backyard: true).first
+    if backyard_article
+      render json: backyard_article, serializer: BackyardsShowSerializerSerializer, root: :backyard_article
+    else
+      render json: { error_message: "Backyard Article with 'id'=#{params[:id]} does not exist" }, status: 404
+    end
   end
 
   def create
