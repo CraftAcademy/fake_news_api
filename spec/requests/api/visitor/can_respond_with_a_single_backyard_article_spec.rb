@@ -1,5 +1,6 @@
 RSpec.describe 'GET /api/backyards/:id', type: :request do
   let!(:backyard_article) { create(:backyard_article) }
+  let!(:article) { create(:article) }
 
   describe 'successfully' do
     before do
@@ -37,6 +38,19 @@ RSpec.describe 'GET /api/backyards/:id', type: :request do
     end
     it 'is expected to have error message' do
       expect(response_json['error_message']).to eq "Couldn't find Article with 'id'=123"
+    end
+  end
+
+  describe 'unsuccessfully, with non-backyrd article :id' do
+    before do
+      get "/api/backyards/#{article.id}"
+    end
+
+    it 'is expected to return 404 status' do
+      expect(response).to have_http_status 404
+    end
+    it 'is expected to have error message' do
+      expect(response_json['error_message']).to eq "Couldn't find Article with 'id'=#{article.id}"
     end
   end
 end
