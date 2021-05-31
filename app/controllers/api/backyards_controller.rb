@@ -15,7 +15,7 @@ class Api::BackyardsController < ApplicationController
     if backyard_article
       render json: backyard_article, serializer: BackyardsShowSerializerSerializer, root: :backyard_article
     else
-      render json: { error_message: "Couldn\'t find Article with 'id'=#{params[:id]}" }, status: 404
+      render json: { error_message: "Backyard Article with 'id'=#{params[:id]} does not exist" }, status: 404
     end
   end
 
