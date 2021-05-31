@@ -1,7 +1,6 @@
 class Api::ArticlesController < ApplicationController
   before_action :authenticate_user!, only: %i[create]
   before_action :admin_authenticator, only: %i[create]
-  before_action :editor_authenticator, only: %i[destroy]
   before_action :set_language_for_index, only: %i[index]
 
   def index
@@ -84,12 +83,6 @@ class Api::ArticlesController < ApplicationController
     return if current_user.journalist?
 
     render json: { error_message: 'You are not authorized to create an article' }, status: 403
-  end
-
-  def editor_authenticator
-    return if current_user.editor?
-
-    render json: { error_message: 'You are not authorized to delete this article' }, status: 403
   end
 
   def update_article_status(article, status)
