@@ -7,6 +7,8 @@ RSpec.describe 'POST /api/auth', type: :request do
       post '/api/auth',
            params: {
              email: 'new_journalist@fakenews.com',
+             password: 'password',
+             password_confirmation: 'password',
              first_name: 'New',
              last_name: 'Guy',
              role: 'journalist'
@@ -31,6 +33,8 @@ RSpec.describe 'POST /api/auth', type: :request do
       post '/api/auth',
            params: {
              email: 'new_journalist@fakenews.com',
+             password: 'password',
+             password_confirmation: 'password',
              first_name: 'New',
              last_name: 'Guy',
              role: 'journalist'
