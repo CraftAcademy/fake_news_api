@@ -6,17 +6,7 @@ class Api::RegistrationsController < DeviseTokenAuth::RegistrationsController
       render json: { message: 'You are not authorised to add a journalist' }, status: 401
     else
       begin
-        customer = Stripe::Customer.list(email: params[:email]).data.first
-        customer ||= Stripe::Customer.create({ email: params[:email] })
-        payment_method = if Rails.env == 'test'
-                           Stripe::PaymentMethod.attach(JSON.parse(params[:stripe_details])['id'],
-                                                        { customer: customer.id })
-                         else
-                           Stripe::PaymentMethod.attach(params[:stripe_details][:paymentMethod][:id],
-                                                        { customer: customer.id })
-                         end
-
-        Stripe::Customer.update(customer.id, { invoice_settings: { default_payment_method: payment_method } })
+        customer = create_customer
         subscription = Stripe::Subscription.create({ customer: customer.id, plan: params[:plan] })
 
         if payment_status(customer, subscription)
@@ -42,5 +32,20 @@ class Api::RegistrationsController < DeviseTokenAuth::RegistrationsController
       status = Stripe::Invoice.retrieve(subscription.latest_invoice).paid
     end
     status
+  end
+
+  def create_customer
+    customer = Stripe::Customer.list(email: params[:email]).data.first
+    customer ||= Stripe::Customer.create({ email: params[:email] })
+    payment_method = if Rails.env == 'test'
+                       Stripe::PaymentMethod.attach(JSON.parse(params[:stripe_details])['id'],
+                                                    { customer: customer.id })
+                     else
+                       Stripe::PaymentMethod.attach(params[:stripe_details][:paymentMethod][:id],
+                                                    { customer: customer.id })
+                     end
+
+    Stripe::Customer.update(customer.id, { invoice_settings: { default_payment_method: payment_method } })
+    customer
   end
 end
