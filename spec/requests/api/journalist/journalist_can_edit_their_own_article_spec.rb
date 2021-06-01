@@ -12,7 +12,8 @@ RSpec.describe 'PUT /api/articles/:id', type: :request do
               title: 'New Article',
               teaser: 'Some damn teaser',
               body: "Husband found dead allegedly because he wasn't testing first or was he?!?!",
-              category: 'Hollywood'
+              category: 'Hollywood',
+              image: 'https://someurl.com'
             }
           },
           headers: auth_headers
@@ -82,7 +83,8 @@ RSpec.describe 'PUT /api/articles/:id', type: :request do
               title: 'New Article',
               teaser: 'Some damn teaser',
               body: "Husband found dead allegedly because he wasn't testing first or was he?!?!",
-              category: 'Hollywood'
+              category: 'Hollywood',
+              image: 'https://someurl.com'
             }
           },
           headers: auth_headers
@@ -103,7 +105,8 @@ RSpec.describe 'PUT /api/articles/:id', type: :request do
               title: '',
               teaser: '',
               body: '',
-              category: ''
+              category: '',
+              image: 'https://someurl.com'
             }
           },
           headers: auth_headers
