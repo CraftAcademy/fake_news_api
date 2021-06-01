@@ -2,6 +2,7 @@ class Api::BackyardsController < ApplicationController
   before_action :authenticate_user!, only: %i[create]
   before_action :editor_authenticator, only: %i[update]
   before_action :editor_index_action, only: %i[index]
+  before_action :is_backyard?, only: %i[show]
 
   def index
     country = get_country
@@ -12,12 +13,7 @@ class Api::BackyardsController < ApplicationController
 
   def show
     backyard_article = Article.find(params[:id])
-
-    if backyard_article.published?
-      render json: backyard_article, serializer: BackyardsShowSerializerSerializer, root: :backyard_article
-    else
-      render json: { error_message: 'This article does not exist' }, status: 404
-    end
+    render json: backyard_article, serializer: BackyardsShowSerializerSerializer, root: :backyard_article
   end
 
   def create
@@ -63,5 +59,11 @@ class Api::BackyardsController < ApplicationController
   def editor_index_action
     render json: Article.where(backyard: true), each_serializer: BackyardsIndexSerializer if current_user&.editor?
     nil
+  end
+
+  def is_backyard?
+    return if Article.where(id: params[:id], backyard: true, status: 'published').first
+    
+    render json: { error_message: 'This article does not exist' }, status: 404 
   end
 end
