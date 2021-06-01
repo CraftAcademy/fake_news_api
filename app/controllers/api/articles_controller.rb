@@ -102,6 +102,7 @@ class Api::ArticlesController < ApplicationController
   end
 
   def update_article(article)
+    attach_image(article)
     updated_article = article.update(article_params)
     if updated_article
       render json: { message: 'Your article has been successfully updated!' }, status: 200
