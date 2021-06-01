@@ -27,7 +27,7 @@ RSpec.describe 'GET /api/backyards/:id', type: :request do
     end
   end
 
-  describe 'unsuccessfully' do
+  describe 'unsuccessfully with non-existent article' do
     before do
       get '/api/backyards/123'
     end
@@ -37,6 +37,21 @@ RSpec.describe 'GET /api/backyards/:id', type: :request do
     end
     it 'is expected to have error message' do
       expect(response_json['error_message']).to eq "Couldn't find Article with 'id'=123"
+    end
+  end
+
+  describe 'unsuccessfully if the article is archived' do
+    let!(:archived_backyard_article) { create(:backyard_article, status: 'archived') }
+    before do
+      get "/api/backyards/#{archived_backyard_article.id}"
+    end
+
+    it 'is expected to response with status 404' do
+      expect(response).to have_http_status 404
+    end
+
+    it 'is expected to have error message' do
+      expect(response_json['error_message']).to eq "This article does not exist"
     end
   end
 end

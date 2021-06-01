@@ -5,14 +5,19 @@ class Api::BackyardsController < ApplicationController
 
   def index
     country = get_country
-    backyard_articles = Article.where(location: country).most_recent
+    backyard_articles = Article.where(location: country, status: 'published').most_recent
     render json: backyard_articles, each_serializer: BackyardsIndexSerializer, root: :backyard_articles,
            meta: country, meta_key: :location
   end
 
   def show
     backyard_article = Article.find(params[:id])
-    render json: backyard_article, serializer: BackyardsShowSerializerSerializer, root: :backyard_article
+
+    if backyard_article.published?
+      render json: backyard_article, serializer: BackyardsShowSerializerSerializer, root: :backyard_article
+    else
+      render json: { error_message: 'This article does not exist' }, status: 404
+    end
   end
 
   def create
