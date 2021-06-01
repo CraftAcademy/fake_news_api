@@ -3,10 +3,11 @@ RSpec.describe 'GET /api/backyards', type: :request do
   let(:vistor_location) do
     file_fixture('visitor_location.json').read
   end
- 
-
+  
+  
   describe 'Successfully' do
     let!(:backyard_articles) { 3.times { create(:backyard_article) } }
+    let!(:backyard_article_archived) { create(:backyard_article, location: 'Sweden', status: 'archived') }
     before do
       stub_request(:get, 'https://nominatim.openstreetmap.org/reverse?accept-language=en&addressdetails=1&format=json&lat=59.32021&lon=18.37827')
       .with(
@@ -24,7 +25,7 @@ RSpec.describe 'GET /api/backyards', type: :request do
       expect(response).to have_http_status 200
     end
   
-    it 'is expected to respond with a list of 3 articles' do
+    it 'is expected to respond with a list of 3 published articles' do
       expect(response_json['backyard_articles'].count).to eq 3
     end
   
