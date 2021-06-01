@@ -47,6 +47,33 @@ RSpec.describe 'PUT /api/articles/:id', type: :request do
     end
   end
 
+  describe 'successfully by only changing the picture' do
+    let(:image) do
+      File.read(fixture_path + '/fake-news-fixture.txt')
+    end
+    before do
+      put "/api/articles/#{article.id}",
+          params: {
+            article: {
+             image: image
+            }
+          },
+          headers: auth_headers
+    end
+
+    it 'is expected to response with status 200' do
+      expect(response).to have_http_status 200
+    end
+
+    it 'is expected to respond with message' do
+      expect(response_json['message']).to eq 'Your article has been successfully updated!'
+    end
+
+    it 'is expected to have the new image attached' do
+      expect(updated_article.image).not_to eq article.image
+    end
+  end
+
   describe 'unsuccessfully, article does not exist' do
     before do
       put "/api/articles/#{article.id + 1}",
